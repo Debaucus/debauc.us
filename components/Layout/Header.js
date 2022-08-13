@@ -6,9 +6,9 @@ const Header = () => {
 
   // Replace javascript:void(0) path with your path
   const navigation = [
-    { title: "About Me", path: "#about" },
-    { title: "Active Projects", path: "#active" },
-    { title: "Previous Projects", path: "#previous" },
+    { title: "About Me", path: "https://debauc.us/#about" },
+    { title: "Active Projects", path: "https://debauc.us/#active" },
+    { title: "Previous Projects", path: "https://debauc.us/#previous" },
   ];
 
   return (
@@ -17,7 +17,8 @@ const Header = () => {
         <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <a href="https://debauc.us/">
-              <img src="" width={120} height={50} alt="Debaucus Logo" />
+              <div className="text-2xl">Debaucus</div>
+              {/* <img src="" width={120} height={50} alt="Debaucus Logo" /> */}
             </a>
             <div className="md:hidden">
               <button
@@ -64,7 +65,7 @@ const Header = () => {
             <ul className="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               {navigation.map((item, idx) => {
                 return (
-                  <li key={idx} className="text-gray-600 hover:text-teal-500">
+                  <li key={idx} className="text-white-600 hover:text-teal-600">
                     <a href={item.path}>{item.title}</a>
                   </li>
                 );
@@ -74,13 +75,14 @@ const Header = () => {
           <div className="hidden md:inline-block">
             <a
               href="javascript:void(0)"
-              className="py-3 px-4 text-white bg-teal-800 hover:bg-indigo-700 rounded-md shadow"
+              className="py-3 px-4 text-white bg-teal-800 hover:bg-teal-600 rounded-md shadow"
             >
               Contact Me
             </a>
           </div>
         </div>
       </nav>
+
     </>
   );
 };
