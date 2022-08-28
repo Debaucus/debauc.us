@@ -51,7 +51,10 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
           {!filteredBlogPosts.length && 'No posts found.'}
           {displayPosts.map((frontMatter, index) => {
             // Shoutout to oldmate#9999 for this clean solution and teaching me about ternary!
-            const alignStyle = index % 2 == 0 ? 'md:col-start-1 md:col-span-6 p-2' : 'md:col-start-3 md:col-span-6 p-2'
+            const alignStyle =
+              index % 2 == 0
+                ? 'md:col-start-1 md:col-span-6 p-2'
+                : 'md:col-start-3 md:col-span-6 p-2'
             const { slug, date, title, summary, tags } = frontMatter
             return (
               <li key={slug} className={alignStyle}>
@@ -68,7 +71,9 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
                           <Tag key={tag} text={tag} />
                         ))}
                       </div>
-                      <div><time dateTime={date}>{formatDate(date)}</time></div>
+                      <div>
+                        <time dateTime={date}>{formatDate(date)}</time>
+                      </div>
                     </div>
                     <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                       {summary}
