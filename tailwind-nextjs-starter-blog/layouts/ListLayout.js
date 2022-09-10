@@ -55,10 +55,12 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
               index % 2 == 0
                 ? 'md:col-start-1 md:col-span-6 p-2'
                 : 'md:col-start-3 md:col-span-6 p-2'
-            const { slug, date, title, summary, tags } = frontMatter
+            const { slug, date, title, summary, tags, previewImage } = frontMatter
             return (
               <li key={slug} className={alignStyle}>
-                <article className="space-y-2 xl:space-y-0">
+                <article className="space-y-2">
+                  <div className="grid"></div>
+                  <img src={previewImage} className="w-48" />
                   <div className="space-y-3">
                     <div>
                       <h3 className="text-2xl font-bold leading-8 tracking-tight">

@@ -2,15 +2,15 @@
 name: Ryan aka Debaucus
 avatar: /static/images/avatar.png
 occupation: Stack Overflow Thief
-company: Self-Employed Thief
+company: Self-Employed Code Thief
 email: hello@debauc.us
-twitter: https://twitter.com/debaucus 
+twitter: https://twitter.com/debaucus
 github: https://github.com/debaucus
 ---
 
-I am debaucus. 
+I am debaucus.
 
-I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. 
+I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer.
 
 I am debaucus but longer. I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.
 
