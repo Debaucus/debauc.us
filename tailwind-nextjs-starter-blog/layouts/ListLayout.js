@@ -1,9 +1,7 @@
-import Link from '@/components/Link'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
+import siteMetadata, { description } from '@/data/siteMetadata'
 import { useState } from 'react'
 import Pagination from '@/components/Pagination'
-import formatDate from '@/lib/utils/formatDate'
+import Card from '@/components/Card'
 
 export default function ListLayout({ posts, title, initialDisplayPosts = [], pagination }) {
   const [searchValue, setSearchValue] = useState('')
@@ -47,45 +45,26 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
             </svg>
           </div>
         </div>
-        <ul className="grid grid-cols-1 md:grid-cols-8">
+        <div className="container grid grid-cols-1 py-12 md:grid-cols-2">
           {!filteredBlogPosts.length && 'No posts found.'}
           {displayPosts.map((frontMatter, index) => {
             // Shoutout to oldmate#9999 for this clean solution and teaching me about ternary!
-            const alignStyle =
-              index % 2 == 0
-                ? 'md:col-start-1 md:col-span-6 p-2'
-                : 'md:col-start-3 md:col-span-6 p-2'
+            const alignStyle = index % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4'
             const { slug, date, title, summary, tags, previewImage } = frontMatter
             return (
-              <li key={slug} className={alignStyle}>
-                <article className="space-y-2">
-                  <div className="grid"></div>
-                  <img src={previewImage} className="w-48" />
-                  <div className="space-y-3">
-                    <div>
-                      <h3 className="text-2xl font-bold leading-8 tracking-tight">
-                        <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
-                          {title}
-                        </Link>
-                      </h3>
-                      <div className="flex flex-wrap">
-                        {tags.map((tag) => (
-                          <Tag key={tag} text={tag} />
-                        ))}
-                      </div>
-                      <div>
-                        <time dateTime={date}>{formatDate(date)}</time>
-                      </div>
-                    </div>
-                    <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                      {summary}
-                    </div>
-                  </div>
-                </article>
-              </li>
+              <div key={slug} className={alignStyle}>
+                <Card
+                  title={title}
+                  date={date}
+                  tags={tags}
+                  description={summary}
+                  imgSrc={previewImage}
+                  href={slug}
+                />
+              </div>
             )
           })}
-        </ul>
+        </div>
       </div>
       {pagination && pagination.totalPages > 1 && !searchValue && (
         <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />

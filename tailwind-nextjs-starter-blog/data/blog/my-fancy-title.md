@@ -5,6 +5,7 @@ tags: ['hello']
 draft: true
 summary:
 images: []
+previewImage: '/static/images/canada/mountains.jpg'
 ---
 
 Draft post which should not display
