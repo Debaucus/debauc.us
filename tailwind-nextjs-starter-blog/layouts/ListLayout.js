@@ -49,7 +49,8 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
           {!filteredBlogPosts.length && 'No posts found.'}
           {displayPosts.map((frontMatter, index) => {
             // Shoutout to oldmate#9999 for this clean solution and teaching me about ternary!
-            const alignStyle = index % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4'
+            const alignStyle =
+              index % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
             const { slug, date, title, summary, tags, previewImage } = frontMatter
             return (
               <div key={slug} className={alignStyle}>

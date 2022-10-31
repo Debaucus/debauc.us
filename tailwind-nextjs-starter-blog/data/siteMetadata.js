@@ -1,7 +1,7 @@
 const siteMetadata = {
   title: 'Debauc.us',
   author: 'Debaucus',
-  headerTitle: 'Make it Work. Make it Better.',
+  headerTitle: 'Debaucus',
   description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light

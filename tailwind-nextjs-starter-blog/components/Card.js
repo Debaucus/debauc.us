@@ -39,7 +39,7 @@ const Card = ({ title, description, imgSrc, href, tags, date }) => (
         </time>
         <h2 className="mb-3 text-2xl font-bold leading-8 tracking-tight">
           {href ? (
-            <Link href={href} aria-label={`Link to ${title}`}>
+            <Link href={`/blog/${href}`} aria-label={`Link to ${title}`}>
               {title}
             </Link>
           ) : (
