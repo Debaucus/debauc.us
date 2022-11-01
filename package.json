@@ -1,6 +1,6 @@
 {
-  "name": "tailwind-nextjs-starter-blog",
-  "version": "1.5.6",
+  "name": "debauc.us",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "start": "cross-env SOCKET=true node ./scripts/next-remote-watch.js ./data",
@@ -69,5 +69,9 @@
     "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
       "prettier --write"
     ]
+  },
+  "engines": {
+    "npm": ">=8.19.2",
+    "node": ">=16.18.0"
   }
 }
