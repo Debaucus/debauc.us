@@ -31,10 +31,10 @@ export default function Home({ posts }) {
               </h1>
               <p className="text-black-500 mt-4 mb-6">
                 Hi! I am a Fullstack Developer with the unfortunate of hobby spending hours solving
-                a problem that would usually take 5 minutes if I just did it.
+                a problem that would usually take 5 minutes. We've all been there.. right?
               </p>
               <p>
-                Below you will find my previous work and my current active projects. I keep this as
+                Below you will find my previous work and my current Active Projects. I keep this as
                 up to date as possible.
               </p>
             </div>
@@ -66,7 +66,17 @@ export default function Home({ posts }) {
           {posts.slice(0, 100).map((frontMatter) => {
             const alignStyle =
               activeProjects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
-            const { slug, date, title, summary, tags, previewImage } = frontMatter
+            const {
+              slug,
+              date,
+              title,
+              summary,
+              tags,
+              previewImage,
+              websiteURL,
+              websiteKeyword,
+              websiteURLLabel,
+            } = frontMatter
             if (frontMatter.tags.includes('active')) {
               activeProjects = activeProjects + 1
               return (
@@ -78,6 +88,9 @@ export default function Home({ posts }) {
                     description={summary}
                     imgSrc={previewImage}
                     href={slug}
+                    websiteURL={websiteURL}
+                    websiteURLLabel={websiteURLLabel}
+                    websiteKeyword={websiteKeyword}
                   />
                 </div>
               )
@@ -107,7 +120,17 @@ export default function Home({ posts }) {
           {posts.slice(0, 100).map((frontMatter) => {
             const alignStyle2 =
               previousProjects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
-            const { slug, date, title, summary, tags, previewImage } = frontMatter
+            const {
+              slug,
+              date,
+              title,
+              summary,
+              tags,
+              previewImage,
+              websiteURL,
+              websiteKeyword,
+              websiteURLLabel,
+            } = frontMatter
             if (frontMatter.tags.includes('inactive')) {
               previousProjects = previousProjects + 1
               return (
@@ -119,6 +142,9 @@ export default function Home({ posts }) {
                     description={summary}
                     imgSrc={previewImage}
                     href={slug}
+                    websiteURL={websiteURL}
+                    websiteURLLabel={websiteURLLabel}
+                    websiteKeyword={websiteKeyword}
                   />
                 </div>
               )
