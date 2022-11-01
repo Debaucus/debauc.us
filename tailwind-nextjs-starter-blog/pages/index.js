@@ -1,14 +1,10 @@
 import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
-import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
-import formatDate from '@/lib/utils/formatDate'
 import Card from '@/components/Card'
+import Image from '@/components/Image'
 
-import NewsletterForm from '@/components/NewsletterForm'
-
-const MAX_DISPLAY = 100
 // Math keeps messing up. To be worked on.
 let activeProjects = 0
 let previousProjects = 0
@@ -44,11 +40,18 @@ export default function Home({ posts }) {
             </div>
             <div className="flex w-full">
               <div className="h-full w-full"></div>
+              <Image
+                alt="Debaucus Image"
+                src="./static/images/debaucus.png"
+                className="object-cover object-center md:h-36 lg:h-48"
+                width={800}
+                height={800}
+              />
             </div>
           </div>
         </div>
       </section>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="" id="active">
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Active Projects
@@ -58,13 +61,13 @@ export default function Home({ posts }) {
           </p>
         </div>
 
-        <div className="container grid grid-cols-1 py-12 md:grid-cols-2">
+        <div className="container grid grid-cols-1 md:grid-cols-2">
           {!posts.length && 'No active projects.'}
-          {posts.slice(0, MAX_DISPLAY).map((frontMatter) => {
+          {posts.slice(0, 100).map((frontMatter) => {
             const alignStyle =
               activeProjects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
             const { slug, date, title, summary, tags, previewImage } = frontMatter
-            if (frontMatter.tags.includes('guide')) {
+            if (frontMatter.tags.includes('active')) {
               activeProjects = activeProjects + 1
               return (
                 <div key={slug} className={alignStyle}>
@@ -81,7 +84,15 @@ export default function Home({ posts }) {
             } else return
           })}
         </div>
-
+        <div className="flex justify-end text-base font-medium leading-6">
+          <Link
+            href="/blog"
+            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+            aria-label="all posts"
+          >
+            All Posts &rarr;
+          </Link>
+        </div>
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Previous Projects
@@ -91,16 +102,16 @@ export default function Home({ posts }) {
           </p>
         </div>
 
-        <div className="container grid grid-cols-1 py-12 md:grid-cols-2">
+        <div className="container grid grid-cols-1 md:grid-cols-2">
           {!posts.length && 'No active projects.'}
-          {posts.slice(0, MAX_DISPLAY).map((frontMatter) => {
-            const alignStyle =
+          {posts.slice(0, 100).map((frontMatter) => {
+            const alignStyle2 =
               previousProjects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
             const { slug, date, title, summary, tags, previewImage } = frontMatter
-            if (frontMatter.tags.includes('guide')) {
+            if (frontMatter.tags.includes('inactive')) {
               previousProjects = previousProjects + 1
               return (
-                <div key={slug} className={alignStyle}>
+                <div key={slug} className={alignStyle2}>
                   <Card
                     title={title}
                     date={date}
@@ -115,22 +126,15 @@ export default function Home({ posts }) {
           })}
         </div>
       </div>
-      {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="all posts"
-          >
-            All Posts &rarr;
-          </Link>
-        </div>
-      )}
-      {siteMetadata.newsletter.provider !== '' && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )}
+      <div className="flex justify-end text-base font-medium leading-6">
+        <Link
+          href="/blog"
+          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+          aria-label="all posts"
+        >
+          All Posts &rarr;
+        </Link>
+      </div>
     </>
   )
 }
