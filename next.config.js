@@ -58,10 +58,8 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
   },
-  experimental: {
-    images: {
-      unoptimized: true,
-    },
+  images: {
+    unoptimized: true,
   },
   async headers() {
     return [
