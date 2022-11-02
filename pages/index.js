@@ -42,7 +42,7 @@ export default function Home({ posts }) {
               <div className="h-full w-full"></div>
               <Image
                 alt="Debaucus Image"
-                src="./static/images/debaucus.png"
+                src="/static/images/debaucus.png"
                 className="object-cover object-center md:h-36 lg:h-48"
                 width={800}
                 height={800}
