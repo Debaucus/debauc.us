@@ -30,8 +30,8 @@ export default function Home({ posts }) {
                 Make it <strong>Better.</strong>
               </h1>
               <p className="text-black-500 mt-4 mb-6">
-                Hi! I am a Fullstack Developer with the unfortunate of hobby spending hours solving
-                a problem that would usually take 5 minutes. We've all been there.. right?
+                Hi! I am a Fullstack Developer with the unfortunate hobby spending hours solving a
+                problem that would usually take 5 minutes. We've all been there.. right?
               </p>
               <p>
                 Below you will find my previous work and my current Active Projects. I keep this as
@@ -39,14 +39,15 @@ export default function Home({ posts }) {
               </p>
             </div>
             <div className="flex w-full">
-              <div className="h-full w-full"></div>
-              <Image
-                alt="Debaucus Image"
-                src="/static/images/debaucus.png"
-                className="object-cover object-center md:h-36 lg:h-48"
-                width={800}
-                height={800}
-              />
+              <div className="h-full w-full">
+                <Image
+                  alt="Debaucus Image"
+                  src="/static/images/debaucus.png"
+                  className="h-60 w-60 object-cover object-center md:h-full md:w-full"
+                  width={400}
+                  height={400}
+                />
+              </div>
             </div>
           </div>
         </div>
