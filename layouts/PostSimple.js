@@ -5,9 +5,10 @@ import { BlogSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import formatDate from '@/lib/utils/formatDate'
 import ScrollTop from '@/components/ScrollTop'
+import Tag from '@/components/Tag'
 
 export default function PostLayout({ frontMatter, authorDetails, next, prev, children }) {
-  const { date, title } = frontMatter
+  const { title, tags, date, websiteURL, websiteURLLabel, websiteKeyword } = frontMatter
 
   return (
     <>
@@ -28,6 +29,21 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
               <div>
                 <PageTitle>{title}</PageTitle>
               </div>
+              {websiteURL && websiteURLLabel && websiteKeyword ? (
+                <div>
+                  <span className="mr-2 inline">Link to</span>
+                  <div className="mb-3 inline text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                    <Link href={websiteURL} aria-label={websiteURLLabel}>
+                      {websiteKeyword}
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
+              {tags.map((tag) => (
+                <Tag key={tag} text={tag} />
+              ))}
             </div>
           </header>
           <div
