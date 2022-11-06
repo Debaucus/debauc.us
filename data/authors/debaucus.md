@@ -1,19 +1,17 @@
 ---
 name: Ryan aka Debaucus
-avatar: /static/images/avatar.png
-occupation: Stack Overflow Thief
-company: Self-Employed Code Thief
+avatar: /static/images/debaucus.png
+occupation: Full Stack Developer
+company: Self-Employed / Freelancer
 email: hello@debauc.us
 twitter: https://twitter.com/debaucus
 github: https://github.com/debaucus
 ---
 
-I am debaucus.
+I am Debaucus.
 
-I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer. I am debaucus but longer.
+I build projects that interest me, with a focus on building communities to help other communities grow. I've found that the passionate projects you work on are the ones that turn out the best. If you do it for fun and it can self-sustain you.. why not?!
 
-I am debaucus but longer. I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.I am debaucus but longer.
+With the recent projects I am aiming to learn and improve my skillset to achieve a higher degree of professional output. I want to be able to not just make my projects work for me, but for others who use them.
 
-At birth, Ged was given the child-name Duny by his mother. He was born on the island of Gont, as a son of a bronzesmith. His mother died before he reached the age of one. As a small boy, Ged had overheard the village witch, his maternal aunt, using various words of power to call goats. Ged later used the words without an understanding of their meanings, to surprising effect.
-
-The witch knew that using words of power effectively without understanding them required innate power, so she endeavored to teach him what little she knew. After learning more from her, he was able to call animals to him. Particularly, he was seen in the company of wild sparrowhawks so often that his "use name" became Sparrowhawk.
+Should you wish to contact me, Discord and Telegram are my current go-to messaging apps.

@@ -10,7 +10,7 @@ canonicalUrl: https://debauc.us/blog/debaucus/
 previewImage: '/static/images/projects/debaucus-website.png'
 websiteURL: 'https://debauc.us/'
 websiteURLLabel: 'Link to Debaucus Blog Website'
-websiteKeyword: 'Debauc.us Website (this site!)'
+websiteKeyword: 'Debauc.us (this site!)'
 ---
 
 ## A case study on self-improvement.
@@ -29,6 +29,10 @@ After building a few minor apps within NodeJS, I fell in love and haven't looked
 
 Now this one is a little harder to pin-point. I could have continued using my standard hosting practice and host my own website, so why? Try something new and see how it works, that's why!
 
+### Github
+
+It's Github. If you are reading this and don't use Github. Go, research, now.
+
 ### NextJS Framework
 
 Originally I wanted to get into learning React as a framework, but it lacks the cache and aggresive SEO features that a website builder like myself seeks. I want to see what NextJS can do for me going forward.
@@ -36,3 +40,17 @@ Originally I wanted to get into learning React as a framework, but it lacks the 
 This project runs on a mix of generation and static content. Each blog posts content (like this one) is all manually entered into each page as there is no database to pull from and the content won't be edited my if ever.
 
 However, the content on the homepage is created using a loop script to place each of the details required for each post. The makes adding new ones far easier and also allows for quick changes to be applied to the design of the site!
+
+## So how is it going?
+
+Well! Cloudflare Page hosting syncs well with domains, so routing the custom domain to the blog was simple. E-mail routing means I can forward any e-mail that comes though to the site to my own personal Gmail, which is great! I do need to work out how to direct the mail back though the domain in a hands-off manner but thats for a future update.
+
+### What to look out for
+
+The first thing that really hung me up was NodeJS and NPM versioning. So when you first use Cloudflare Pages (at the time of writing) the default versioning is 14.x.x for Node and 8.x.x for NPM. This left me with some difficult decisions for editing my site and packages to make it work. However, you can set and enviroment variable to update Node! Shoutout to the Cloudflare Discord for help with this.
+
+For Node Versions (which should update NPM to the appropiate version) use:
+
+`Variable name` - `NODE_VERSION`
+
+`Value` - `16.18.0`

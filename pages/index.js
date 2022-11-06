@@ -43,7 +43,7 @@ export default function Home({ posts }) {
                 <Image
                   alt="Debaucus Image"
                   src="/static/images/debaucus.png"
-                  className="h-60 w-60 object-cover object-center md:h-full md:w-full"
+                  className="h-60 w-60 rounded-full object-cover object-center md:h-full md:w-full"
                   width={400}
                   height={400}
                 />
