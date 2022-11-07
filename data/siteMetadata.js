@@ -1,5 +1,5 @@
 const siteMetadata = {
-  title: 'Debauc.us',
+  title: 'Debaucus',
   author: 'Debaucus',
   headerTitle: 'Debaucus',
   description:
