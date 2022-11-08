@@ -29,12 +29,12 @@ export default function Home({ posts }) {
                 Make it <strong>Better.</strong>
               </h1>
               <p className="text-black-500 mt-4 mb-6">
-                Hi! I am a Fullstack Developer with the unfortunate hobby spending hours solving a
-                problem that would usually take 5 minutes. We've all been there.. right?
+                Hi! I am a Fullstack Developer with the unfortunate hobby of spending hours solving
+                a problem that would usually take 5 minutes. We've all been there.. right?
               </p>
               <p>
                 Below you will find my previous work and my current Active Projects. I keep this as
-                up to date as possible.
+                up-to-date as possible.
               </p>
             </div>
             <div className="flex w-full">
