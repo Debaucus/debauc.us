@@ -6,8 +6,7 @@ import Card from '@/components/Card'
 import Image from '@/components/Image'
 
 // Math keeps messing up. To be worked on.
-let activeProjects = 0
-let previousProjects = 0
+let projects = 0
 
 export async function getStaticProps() {
   const posts = await getAllFilesFrontMatter('blog')
@@ -41,8 +40,8 @@ export default function Home({ posts }) {
             <div className="flex w-full">
               <div className="h-full w-full">
                 <Image
-                  alt="Debaucus Image"
-                  src="/static/images/debaucus.png"
+                  alt="Debaucus Photo"
+                  src="/static/images/debaucus_front.jpg"
                   className="h-60 w-60 rounded-full object-cover object-center md:h-full md:w-full"
                   width={400}
                   height={400}
@@ -66,7 +65,7 @@ export default function Home({ posts }) {
           {!posts.length && 'No active projects.'}
           {posts.slice(0, 100).map((frontMatter) => {
             const alignStyle =
-              activeProjects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
+              projects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
             const {
               slug,
               date,
@@ -79,7 +78,7 @@ export default function Home({ posts }) {
               websiteURLLabel,
             } = frontMatter
             if (frontMatter.tags.includes('active')) {
-              activeProjects = activeProjects + 1
+              projects = projects + 1
               return (
                 <div key={slug} className={alignStyle}>
                   <Card
@@ -120,7 +119,7 @@ export default function Home({ posts }) {
           {!posts.length && 'No active projects.'}
           {posts.slice(0, 100).map((frontMatter) => {
             const alignStyle2 =
-              previousProjects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
+              projects % 2 == 0 ? 'md:mr-4' : 'md:mt-[50%] md:mb-[-50%] md:ml-4 last:mb-0'
             const {
               slug,
               date,
@@ -133,7 +132,7 @@ export default function Home({ posts }) {
               websiteURLLabel,
             } = frontMatter
             if (frontMatter.tags.includes('inactive')) {
-              previousProjects = previousProjects + 1
+              projects = projects + 1
               return (
                 <div key={slug} className={alignStyle2}>
                   <Card

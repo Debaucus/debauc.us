@@ -16,7 +16,7 @@ const siteMetadata = {
   twitter: 'https://twitter.com/debaucus',
   facebook: 'https://facebook.com/debaucus',
   discord: 'https://discord.com',
-  telegram: 'https://telegram.com',
+  telegram: 'https://t.me/debaucus',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
