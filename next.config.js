@@ -58,6 +58,10 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
   },
+  images: {
+    loader: 'custom',
+    loaderFile: './lib/utils/loader.js',
+  },
   async headers() {
     return [
       {
