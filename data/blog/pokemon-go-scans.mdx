@@ -6,7 +6,7 @@ tags: ['active', 'linux', 'raspberry-pi', 'docker', 'python', 'react']
 draft: false
 summary: "Tracking every action on a game based in the real world isn't easy, but here's how I and some friends accomplished just that."
 layout: PostSimple
-previewImage: '/static/images/projects/blog/pokemon-go-scans/poe_powered_atvs.jpg'
+previewImage: 'static/images/projects/blog/pokemon-go-scans/poe_powered_atvs.jpg'
 canonicalUrl: https://debauc.us/blog/pokemon-go-scans
 ---
 
@@ -20,7 +20,7 @@ At the launch of Pokemon Go in 2017, map websites were formed in which you could
 
 At some point a few months after launch, the maps where blocked by Niantic, the company running the game. What used to be done by simply requesting from the games API was now blocked, workarounds where found and blocked again. This continued for a few months till a hashing method was used to block maps permanently. It was around this time I stopped playing the game.
 
-![Pokevision stops working](/static/images/projects/blog/pokemon-go-scans/pokevision.png)
+![Pokevision stops working](static/images/projects/blog/pokemon-go-scans/pokevision.png)
 
 ## Return to the addiction
 
@@ -42,15 +42,15 @@ I found a community which created a ROM specifically for the task of scanning Po
 
 Here is the first Android TV box, you can see the name on the device, and it comes with a plug adapter in order to power it.
 
-![The First ATV Box](/static/images/projects/blog/pokemon-go-scans/first_box.jpg)
+![The First ATV Box](static/images/projects/blog/pokemon-go-scans/first_box.jpg)
 
 Bugs, bugs, bugs. This was caused by a flash failing to complete. HDMI could be used for an output to a screen.
 
-![Output of failed flash](/static/images/projects/blog/pokemon-go-scans/bugs.jpg)
+![Output of failed flash](static/images/projects/blog/pokemon-go-scans/bugs.jpg)
 
 After a few more debugs, and connecting it up to the main software... SUCCESS! Here is a picture of the ATV when it first began scanning quests locally to me.
 
-![ATV Playing Pokemon Go](/static/images/projects/blog/pokemon-go-scans/success.jpg)
+![ATV Playing Pokemon Go](static/images/projects/blog/pokemon-go-scans/success.jpg)
 
 ## Expand and Conquer
 
@@ -58,22 +58,22 @@ With this success I set up a local Discord channel for people who wanted to join
 
 Within 2 weeks, 3 more ATV's had arrived and were now set up to scan, the issue is they had European plugs (my error in ordering) so I needed to get a power strip that supported those plugs. These ATV's were the more powerful TX9s and I needed a stand to get things moving along. A basic switch was purchased in order to network everything up.
 
-![Make it work, make it better later](/static/images/projects/blog/pokemon-go-scans/first_stand.jpg)
+![Make it work, make it better later](static/images/projects/blog/pokemon-go-scans/first_stand.jpg)
 
 As the number of boxes grew to 10, then 12, it became clear fast that a better large-scale solution needed to be sorted out. I was loving the challenge of each box arriving as it became clear to me I had to think on my feet and be agile in improving the project. Each day more and more Pokemon would be scanned, a larger area could be covered, everything about the project was exactly what I looked for.
 
 A friend in the group, who really came in clutch with the timing, was able to provide a 1U network switch with 24 Ports! This solved my networking problem, next was to solve the power issue. Having 1 wall plug dedicated to each ATV is fine when you have 2 or 3 but as the numbers grew this was unsustainable, the Discord community for the Pokemon Go Scanning software said that USB power was the best quick solution to grow. So that was the next step.
 
-![First stand with Networking](/static/images/projects/blog/pokemon-go-scans/first_stand_with_network.jpg)
+![First stand with Networking](static/images/projects/blog/pokemon-go-scans/first_stand_with_network.jpg)
 
 Now space is becoming a problem! The ATV's keep coming, so let's keep growing! The goal now is to remove the cases of the A95X F1's and create a tower, and add active cooling in order to keep the scanning running at maximum efficiency.
 
-![Second stand with Networking](/static/images/projects/blog/pokemon-go-scans/second_stand.jpg)
+![Second stand with Networking](static/images/projects/blog/pokemon-go-scans/second_stand.jpg)
 
 I only show this step because of the nickname it got. Crafted from old warped skirting boards, with a growing amount of boards and needing more cooling, the Tower of Power was born.
 
 <img
-  src="/static/images/projects/blog/pokemon-go-scans/tower_of_power.jpg"
+  src="static/images/projects/blog/pokemon-go-scans/tower_of_power.jpg"
   alt="Tower of Power"
   width="250px"
 />
@@ -92,11 +92,11 @@ A 1U 48 Cisco POE switch was purchased, this can be used in combination with man
 
 Additionally, half of the cabling is removed as power cables are combined with networking, this reduces the weight and bloat with the only need being a Raspberry Pi to manage the software. A fair amount of setup is required to begin doing it this way, but in retrospect I would have started with manual restarts with PoE plugs still as this would have been a better plan long term regardless.
 
-![Third Stand with PoE Networking and Power](/static/images/projects/blog/pokemon-go-scans/poe_powered_atvs.jpg)
+![Third Stand with PoE Networking and Power](static/images/projects/blog/pokemon-go-scans/poe_powered_atvs.jpg)
 
 And of course, dark mode.
 
-![Dark Mode ATV's](/static/images/projects/blog/pokemon-go-scans/poe_powered_atvs_dark_mode.jpg)
+![Dark Mode ATV's](static/images/projects/blog/pokemon-go-scans/poe_powered_atvs_dark_mode.jpg)
 
 ## Final thoughts
 

@@ -8,9 +8,9 @@ const siteMetadata = {
   theme: 'system', // system, dark or light
   siteUrl: 'https://debauc.us',
   siteRepo: 'https://github.com/debaucus/debauc.us',
-  siteLogo: '/static/images/logo.png',
-  image: '/static/images/debaucus.png',
-  socialBanner: '/static/images/twitter-card.png',
+  siteLogo: 'static/images/logo.png',
+  image: 'static/images/debaucus.png',
+  socialBanner: 'static/images/twitter-card.png',
   email: 'hello@debauc.us',
   github: 'https://github.com/debaucus',
   twitter: 'https://twitter.com/debaucus',
