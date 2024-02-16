@@ -38,7 +38,7 @@ export default function Home({ posts }) {
               <div className="h-full w-full">
                 <Image
                   alt="Debaucus Photo"
-                  src="/static/images/debaucus_front.jpg"
+                  src="static/images/debaucus_front.jpg"
                   className="mx-auto h-60 w-60 rounded-full object-cover object-center md:mb-0 md:h-full md:w-full"
                   width={400}
                   height={400}

@@ -1,6 +1,6 @@
 ---
 name: Ryan aka Debaucus
-avatar: /static/images/debaucus.png
+avatar: static/images/debaucus.png
 occupation: Full Stack Developer
 company: Self-Employed / Freelancer
 email: hello@debauc.us
