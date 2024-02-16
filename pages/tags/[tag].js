@@ -57,9 +57,9 @@ export default function Tag({ posts, tag }) {
     <>
       <TagSEO
         title={`${newTitle.join(' ')} - ${siteMetadata.headerTitle}`}
-        description={`Blog Posts I've made for ${newTitle.join(' ')}. Written by ${
+        description={`Blog Posts I've made about the subject ${newTitle.join(' ')}. Written by ${
           siteMetadata.headerTitle
-        }.`}
+        }. Enjoy and share!`}
       />
       <ListLayout posts={posts} title={newTitle.join(' ')} />
     </>
