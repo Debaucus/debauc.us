@@ -59,6 +59,7 @@ export const TagSEO = ({ title, description }) => {
         ogImage={ogImageUrl}
         twImage={twImageUrl}
       />
+      {/*
       <Head>
         <link
           rel="alternate"
@@ -67,6 +68,7 @@ export const TagSEO = ({ title, description }) => {
           href={`${siteMetadata.siteUrl}${router.asPath}/feed.xml`}
         />
       </Head>
+      */}
     </>
   )
 }
