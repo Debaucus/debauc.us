@@ -38,7 +38,7 @@ const siteMetadata = require('../data/siteMetadata')
                   .replace('.tsx', '')
                   .replace('.mdx', '')
                   .replace('.md', '')
-                // .replace('/feed.xml', '')
+                  .replace('/feed.xml', '')
                 const route = path === '/index' ? '' : path
 
                 if (page.search('pages/404.') > -1 || page.search(`pages/blog/[...slug].`) > -1) {
