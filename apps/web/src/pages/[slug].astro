@@ -17,40 +17,137 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const post = await db
-  .select()
-  .from(posts)
-  .where(eq(posts.slug, slug as string))
-  .get();
+// Fetch full post data with relations
+const post = await db.query.posts.findFirst({
+  where: eq(posts.slug, slug as string),
+  with: {
+    coverImage: true,
+    authorsLink: {
+      with: { author: true },
+    },
+    categoriesLink: {
+      with: { category: true },
+    },
+  },
+});
 
 if (!post) {
   return Astro.redirect("/404");
 }
 
-// Use the pre-converted HTML from Payload
-const contentHtml = post.content_html || "";
+// Prefix image URLs in HTML content to point to CMS
+// TODO: Use environment variable for CMS URL
+const cmsUrl = "http://localhost:3000";
+// Fallback to client-side serialization if content_html is missing
+let rawHtml = post.content_html;
+if (!rawHtml && post.content) {
+  rawHtml = await serializeLexical(post.content);
+}
+
+const contentHtml = (rawHtml || "").replace(
+  /src="\/media\//g,
+  `src="${cmsUrl}/media/`,
+);
+
+const coverUrl = post.coverImage?.url
+  ? `${cmsUrl}${post.coverImage.url}`
+  : null;
+const authors = post.authorsLink.map((l: any) => l.author).filter(Boolean);
+const categories = post.categoriesLink
+  .map((l: any) => l.category)
+  .filter(Boolean);
 ---
 
 <Layout title={post.title}>
-  <article class="container mx-auto px-4 py-8 max-w-3xl">
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
-      <div class="text-gray-500 mb-4">
+  <article class="max-w-4xl mx-auto px-4 py-12">
+    <a
+      href="/"
+      class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 transition-colors"
+    >
+      &larr; Back to Blog
+    </a>
+
+    <header class="mb-10 text-center">
+      <div class="mb-6">
         {
-          post.publishedDate
-            ? new Date(post.publishedDate).toLocaleDateString()
-            : "Draft"
+          categories.map((cat: any) => (
+            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full uppercase tracking-wide font-semibold mr-2">
+              {cat.title}
+            </span>
+          ))
         }
       </div>
-      {
-        post.excerpt && (
-          <p class="text-xl text-gray-600 dark:text-gray-300 italic">
-            {post.excerpt}
-          </p>
-        )
-      }
+
+      <h1
+        class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight"
+      >
+        {post.title}
+      </h1>
+
+      <div
+        class="flex items-center justify-center text-gray-600 dark:text-gray-400 space-x-4"
+      >
+        <div class="flex items-center">
+          {
+            authors.map((author: any) => (
+              <div class="flex items-center mr-4">
+                {/* Placeholder for author image if available */}
+                <span class="font-medium">{author.name}</span>
+              </div>
+            ))
+          }
+        </div>
+        <span>&bull;</span>
+        <time datetime={post.publishedDate}>
+          {
+            post.publishedDate
+              ? new Date(post.publishedDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              : "Draft"
+          }
+        </time>
+      </div>
     </header>
 
-    <div class="prose lg:prose-xl dark:prose-invert" set:html={contentHtml} />
+    {
+      coverUrl && (
+        <div class="mb-12 rounded-xl overflow-hidden shadow-2xl aspect-video relative">
+          <img
+            src={coverUrl}
+            alt={post.coverImage?.alt || post.title}
+            class="object-cover w-full h-full"
+          />
+        </div>
+      )
+    }
+
+    <div class="prose lg:prose-xl dark:prose-invert mx-auto">
+      {
+        post.excerpt && (
+          <div class="lead text-xl text-gray-600 dark:text-gray-300 font-serif italic mb-8 border-l-4 border-blue-500 pl-4">
+            {post.excerpt}
+          </div>
+        )
+      }
+
+      <div set:html={contentHtml} />
+    </div>
+
+    <hr class="my-12 border-gray-200 dark:border-gray-700" />
+
+    <div
+      class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-6 rounded-lg"
+    >
+      <div>
+        <h3 class="font-bold text-gray-900 dark:text-white">Written by</h3>
+        <p class="text-gray-600 dark:text-gray-400">
+          {authors.map((a: any) => a.name).join(" & ")}
+        </p>
+      </div>
+      {/* Share buttons could go here */}
+    </div>
   </article>
 </Layout>

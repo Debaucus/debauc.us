@@ -4,11 +4,28 @@ import { posts } from "../lib/schema";
 import { desc, eq } from "drizzle-orm";
 import Layout from "../layouts/Layout.astro";
 
-const allPosts = await db
-  .select()
-  .from(posts)
-  .where(eq(posts.status, "published"))
-  .orderBy(desc(posts.publishedDate));
+const allPosts = await db.query.posts.findMany({
+  where: eq(posts.status, "published"),
+  orderBy: [desc(posts.publishedDate)],
+  with: {
+    coverImage: true,
+    authorsLink: {
+      with: {
+        author: true,
+      },
+    },
+    categoriesLink: {
+      with: {
+        category: true,
+      },
+    },
+  },
+});
+
+// Helper to get image URL (assuming local dev for now, or relative path)
+// Payload uploads usually go to /media/filename.ext
+// If using specific base URL, we'd prefix it.
+const getImageUrl = (media: any) => (media?.url ? `${media.url}` : null);
 ---
 
 <Layout title="Debauc.us Blog">
@@ -18,29 +35,69 @@ const allPosts = await db
       {
         allPosts
           .filter((post: any) => post.slug)
-          .map((post: any) => (
-            <article class="border rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow flex flex-col">
-              <h2 class="text-2xl font-bold mb-2">
-                <a href={`/${post.slug}`} class="hover:underline">
-                  {post.title}
-                </a>
-              </h2>
-              <p class="text-gray-500 text-sm mb-4">
-                {post.publishedDate
-                  ? new Date(post.publishedDate).toLocaleDateString()
-                  : "Published"}
-              </p>
-              {post.excerpt && (
-                <p class="text-gray-700 mb-4 flex-grow">{post.excerpt}</p>
-              )}
-              <a
-                href={`/${post.slug}`}
-                class="text-blue-500 hover:underline mt-auto"
-              >
-                Read more &rarr;
-              </a>
-            </article>
-          ))
+          .map((post: any) => {
+            const authors = post.authorsLink
+              .map((link: any) => link.author)
+              .filter(Boolean);
+            const categories = post.categoriesLink
+              .map((link: any) => link.category)
+              .filter(Boolean);
+            const coverUrl = getImageUrl(post.coverImage);
+
+            return (
+              <article class="border rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col overflow-hidden bg-white dark:bg-gray-800">
+                {coverUrl && (
+                  <img
+                    src={coverUrl}
+                    alt={post.coverImage?.alt || post.title}
+                    class="w-full h-48 object-cover"
+                  />
+                )}
+                <div class="p-6 flex flex-col flex-grow">
+                  <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+                    <a href={`/${post.slug}`} class="hover:underline">
+                      {post.title}
+                    </a>
+                  </h2>
+
+                  <div class="flex flex-wrap gap-2 mb-3 text-sm text-gray-500">
+                    <span>
+                      {post.publishedDate
+                        ? new Date(post.publishedDate).toLocaleDateString()
+                        : "Published"}
+                    </span>
+                    {authors.length > 0 && (
+                      <span>
+                        by {authors.map((a: any) => a.name).join(", ")}
+                      </span>
+                    )}
+                  </div>
+
+                  {post.excerpt && (
+                    <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                  )}
+
+                  <div class="mt-auto pt-4 flex justify-between items-center">
+                    <div class="flex gap-2">
+                      {categories.map((cat: any) => (
+                        <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-gray-700 dark:text-gray-300">
+                          {cat.title}
+                        </span>
+                      ))}
+                    </div>
+                    <a
+                      href={`/${post.slug}`}
+                      class="text-blue-500 hover:underline font-semibold"
+                    >
+                      Read more &rarr;
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })
       }
     </div>
   </main>

@@ -6,9 +6,8 @@ const client = createClient({
 
 async function main() {
   try {
-    const result = await client.execute("PRAGMA table_info(posts)");
-    console.log("Columns in 'posts' table:");
-    console.log(JSON.stringify(result.rows, null, 2));
+    const rels = await client.execute("PRAGMA table_info(posts_rels)");
+    console.log("posts_rels Columns:", JSON.stringify(rels.rows, null, 2));
   } catch (e) {
     console.error(e);
   }
