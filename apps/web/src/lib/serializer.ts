@@ -31,7 +31,7 @@ function serializeNode(node: any): string {
       case "paragraph":
         return `<p>${children}</p>`;
       case "heading":
-        return `<h${node.tag}>${children}</h${node.tag}>`;
+        return `<${node.tag}>${children}</${node.tag}>`;
       case "list":
         const tag = node.listType === "number" ? "ol" : "ul";
         return `<${tag}>${children}</${tag}>`;

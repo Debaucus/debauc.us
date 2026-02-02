@@ -45,8 +45,8 @@ if (!rawHtml && post.content) {
 }
 
 const contentHtml = (rawHtml || "").replace(
-  /src="\/media\//g,
-  `src="${cmsUrl}/media/`,
+  /src="(\/media\/|\/api\/media\/file\/)/g,
+  `src="${cmsUrl}/api/media/file/`,
 );
 
 const coverUrl = post.coverImage?.url
