@@ -1,36 +1,56 @@
 ---
-import { db } from '../lib/db';
-import { posts } from '../lib/schema';
-import { eq } from 'drizzle-orm';
-import Layout from '../layouts/Layout.astro';
-import { serializeLexical } from '../lib/serializer';
+import { db } from "../lib/db";
+import { posts } from "../lib/schema";
+import { eq } from "drizzle-orm";
+import Layout from "../layouts/Layout.astro";
+import { serializeLexical } from "../lib/serializer";
 
 export async function getStaticPaths() {
-  const allPosts = await db.select({ slug: posts.slug }).from(posts);
+  const allPosts = await db
+    .select({ slug: posts.slug })
+    .from(posts)
+    .where(eq(posts.status, "published"));
+
   return allPosts.map((p: any) => ({
     params: { slug: p.slug },
   }));
 }
 
 const { slug } = Astro.params;
-const post = await db.select().from(posts).where(eq(posts.slug, slug as string)).get();
+const post = await db
+  .select()
+  .from(posts)
+  .where(eq(posts.slug, slug as string))
+  .get();
 
 if (!post) {
-    return Astro.redirect('/404');
+  return Astro.redirect("/404");
 }
 
-const contentHtml = await serializeLexical(post.content);
+// Use the pre-converted HTML from Payload
+const contentHtml = post.content_html || "";
 ---
 
 <Layout title={post.title}>
-	<article class="container mx-auto px-4 py-8 max-w-3xl">
-		<header class="mb-8">
-            <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
-            <div class="text-gray-500">
-                {new Date(post.createdAt).toLocaleDateString()}
-            </div>
-        </header>
-        
-        <div class="prose lg:prose-xl" set:html={contentHtml} />
-	</article>
+  <article class="container mx-auto px-4 py-8 max-w-3xl">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+      <div class="text-gray-500 mb-4">
+        {
+          post.publishedDate
+            ? new Date(post.publishedDate).toLocaleDateString()
+            : "Draft"
+        }
+      </div>
+      {
+        post.excerpt && (
+          <p class="text-xl text-gray-600 dark:text-gray-300 italic">
+            {post.excerpt}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="prose lg:prose-xl dark:prose-invert" set:html={contentHtml} />
+  </article>
 </Layout>

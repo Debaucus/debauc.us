@@ -9,5 +9,8 @@
     "dev:web": "npm run dev --workspace=@debauc-us/web",
     "dev:cms": "npm run dev --workspace=@debauc-us/cms",
     "build": "npm run build --workspaces"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.0"
   }
 }

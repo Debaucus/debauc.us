@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { HTMLConverterFeature, lexicalEditor, lexicalHTML } from '@payloadcms/richtext-lexical'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -12,6 +13,36 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: 'excerpt',
+      type: 'textarea',
+    },
+    {
+      name: 'publishedDate',
+      type: 'date',
+    },
+    {
+      name: 'status',
+      type: 'select',
+      options: [
+        { label: 'Draft', value: 'draft' },
+        { label: 'Published', value: 'published' },
+      ],
+      defaultValue: 'draft',
+      required: true,
+    },
+    {
+      name: 'authors',
+      type: 'relationship',
+      relationTo: 'authors',
+      hasMany: true,
+    },
+    {
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
+    },
+    {
       name: 'slug',
       type: 'text',
       required: true,
@@ -21,21 +52,28 @@ export const Posts: CollectionConfig = {
       },
       hooks: {
         beforeValidate: [
-           ({ value, data }) => {
-             if (value) return value;
-             return data?.title?.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-           }
-        ]
-      }
+          ({ value, data }) => {
+            if (value) return value
+            return data?.title
+              ?.toLowerCase()
+              .replace(/ /g, '-')
+              .replace(/[^\w-]+/g, '')
+          },
+        ],
+      },
     },
     {
       name: 'content',
       type: 'richText',
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [...defaultFeatures, HTMLConverterFeature({})],
+      }),
     },
+    lexicalHTML('content', { name: 'content_html' }),
     {
-        name: 'coverImage',
-        type: 'upload',
-        relationTo: 'media',
-    }
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
   ],
 }
