@@ -1,11 +1,13 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { buildConfig } from 'payload'
 import path from 'path'
+import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
-import { Users } from './src/collections/Users.ts'
-import { Posts } from './src/collections/Posts.ts'
-import { Media } from './src/collections/Media.ts'
+import sharp from 'sharp'
+
+import { Users } from './collections/Users'
+import { Posts } from './collections/Posts'
+import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,7 +20,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Posts, Media],
-  editor: lexicalEditor({}),
+  editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'super-secret-key',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -29,4 +31,6 @@ export default buildConfig({
       authToken: process.env.TURSO_AUTH_TOKEN,
     },
   }),
+  sharp,
+  plugins: [],
 })
