@@ -1,0 +1,29 @@
+---
+import { db } from '../lib/db';
+import { posts } from '../lib/schema';
+import { desc } from 'drizzle-orm';
+import Layout from '../layouts/Layout.astro';
+
+const allPosts = await db.select().from(posts).orderBy(desc(posts.createdAt));
+---
+
+<Layout title="Debauc.us Blog">
+	<main class="container mx-auto px-4 py-8">
+		<h1 class="text-4xl font-bold mb-8">Latest Posts</h1>
+		<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+			{allPosts.map((post: any) => (
+				<article class="border rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
+					<h2 class="text-2xl font-bold mb-2">
+						<a href={`/${post.slug || ''}`} class="hover:underline">
+							{post.title}
+						</a>
+					</h2>
+					<p class="text-gray-500 text-sm mb-4">
+						{new Date(post.createdAt).toLocaleDateString()}
+					</p>
+                    {/* Add cover image logic if available */}
+				</article>
+			))}
+		</div>
+	</main>
+</Layout>
