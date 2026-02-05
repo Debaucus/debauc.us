@@ -2,6 +2,7 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 import * as schema from './schema';
 import path from "path";
+import fs from "node:fs";
 
 const getDbUrl = () => {
   if (process.env.TURSO_DATABASE_URL) {
@@ -36,10 +37,24 @@ if (!process.env.TURSO_DATABASE_URL) {
   console.log(`[DB Debug] Absolute DB Path: ${dbPath}`);
 
   try {
-    const fs = require("fs");
-    console.log(`[DB Debug] File exists: ${fs.existsSync(dbPath)}`);
+    if (fs.existsSync(dbPath)) {
+      const stats = fs.statSync(dbPath);
+      console.log(`[DB Debug] File exists! Size: ${stats.size} bytes`);
+      console.log(`[DB Debug] Permissions: ${stats.mode}`);
+    } else {
+      console.log(`[DB Debug] ❌ File NOT found at ${dbPath}`);
+      const dir = path.dirname(dbPath);
+      if (fs.existsSync(dir)) {
+        console.log(
+          `[DB Debug] Directory ${dir} contents:`,
+          fs.readdirSync(dir),
+        );
+      } else {
+        console.log(`[DB Debug] Directory ${dir} does not exist either!`);
+      }
+    }
   } catch (e) {
-    console.log("[DB Debug] Failed to check file existence:", e);
+    console.log("[DB Debug] Error checking file:", e);
   }
 }
 
