@@ -22,10 +22,9 @@ const allPosts = await db.query.posts.findMany({
   },
 });
 
-// Helper to get image URL (assuming local dev for now, or relative path)
-// Payload uploads usually go to /media/filename.ext
-// If using specific base URL, we'd prefix it.
-const getImageUrl = (media: any) => (media?.url ? `${media.url}` : null);
+import { getCMSUrl } from "../lib/cms";
+
+const getImageUrl = (media: any) => getCMSUrl(media?.url);
 ---
 
 <Layout title="Debauc.us Blog">

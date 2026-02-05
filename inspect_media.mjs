@@ -6,11 +6,8 @@ const client = createClient({
 
 async function main() {
   try {
-    const result = await client.execute({
-        sql: "SELECT slug, title, content, content_html FROM posts WHERE slug = ?",
-        args: ["testpost3"]
-    });
-    console.log("Post 'beadie':");
+    const result = await client.execute("SELECT id, url, filename FROM media");
+    console.log("Media table:");
     console.log(JSON.stringify(result.rows, null, 2));
   } catch (e) {
     console.error(e);

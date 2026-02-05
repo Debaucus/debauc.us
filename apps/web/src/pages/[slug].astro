@@ -36,22 +36,29 @@ if (!post) {
 }
 
 // Prefix image URLs in HTML content to point to CMS
-// TODO: Use environment variable for CMS URL
-const cmsUrl = "http://localhost:3000";
+import { getCMSUrl, CMS_URL } from "../lib/cms";
+const cmsUrl = CMS_URL;
 // Fallback to client-side serialization if content_html is missing
 let rawHtml = post.content_html;
+
 if (!rawHtml && post.content) {
-  rawHtml = await serializeLexical(post.content);
+  // Fetch all media to resolve IDs
+  // Optimization: In a real app, strict filtering by IDs found in content would be better.
+  // For now, fetching all is acceptable for a small blog.
+  const allMedia = await db.query.media.findMany();
+  const mediaMap = new Map(allMedia.map((m: any) => [m.id, m]));
+
+  rawHtml = await serializeLexical(post.content, mediaMap);
 }
 
+// Fix image URLs:
+// Prefix with CMS URL
 const contentHtml = (rawHtml || "").replace(
-  /src="(\/media\/|\/api\/media\/file\/)/g,
+  /src="\/api\/media\/file\//g,
   `src="${cmsUrl}/api/media/file/`,
 );
 
-const coverUrl = post.coverImage?.url
-  ? `${cmsUrl}${post.coverImage.url}`
-  : null;
+const coverUrl = getCMSUrl(post.coverImage?.url);
 const authors = post.authorsLink.map((l: any) => l.author).filter(Boolean);
 const categories = post.categoriesLink
   .map((l: any) => l.category)
