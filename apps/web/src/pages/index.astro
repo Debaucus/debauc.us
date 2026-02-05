@@ -101,7 +101,6 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
       <div class="hidden lg:block px-4 py-2 border-r border-zinc-800 w-64">
         Tags
       </div>
-      <div class="px-4 py-2 w-24 text-center">Link</div>
     </div>
 
     <!-- List View -->
@@ -127,7 +126,7 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
 
                   {/* ID Column */}
                   <div class="p-4 md:w-16 border-b md:border-b-0 md:border-r border-zinc-800 font-mono text-zinc-600 text-xs flex items-center justify-center group-hover:text-zinc-300 transition-colors">
-                    {String(index + 1).padStart(2, "0")}
+                    {String(index + 1).padStart(3, "0")}
                   </div>
 
                   {/* Main Content */}
@@ -156,13 +155,6 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
                         {cat.title}
                       </span>
                     ))}
-                  </div>
-
-                  {/* Action */}
-                  <div class="w-full md:w-24 flex items-center justify-center p-4 bg-zinc-950 group-hover:bg-zinc-900/50 transition-colors">
-                    <span class="text-xs text-emerald-600 opacity-0 group-hover:opacity-100 transition-all font-bold tracking-widest uppercase transform translate-x-2 group-hover:translate-x-0">
-                      View
-                    </span>
                   </div>
                 </a>
               </article>
