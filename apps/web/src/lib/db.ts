@@ -9,14 +9,14 @@ const getDbUrl = () => {
   }
 
   // Fallback to local DB
-  // Check if we are in apps/web (local dev) or root (Cloudflare build)
   const cwd = process.cwd();
   const isWebDir = cwd.endsWith("web") || cwd.endsWith("web" + path.sep);
   const relativePath = isWebDir
     ? "../../apps/cms/local.db"
     : "apps/cms/local.db";
+  const absolutePath = path.resolve(cwd, relativePath);
 
-  return `file:${relativePath}`;
+  return `file:${absolutePath}`;
 };
 
 const url = getDbUrl();
@@ -34,6 +34,13 @@ if (!process.env.TURSO_DATABASE_URL) {
   console.log(`[DB Debug] Is Web Dir: ${isWebDir}`);
   console.log(`[DB Debug] Resolved Relative Path: ${relativePath}`);
   console.log(`[DB Debug] Absolute DB Path: ${dbPath}`);
+
+  try {
+    const fs = require("fs");
+    console.log(`[DB Debug] File exists: ${fs.existsSync(dbPath)}`);
+  } catch (e) {
+    console.log("[DB Debug] Failed to check file existence:", e);
+  }
 }
 
 const client = createClient({
