@@ -52,11 +52,14 @@ if (!rawHtml && post.content) {
 }
 
 // Fix image URLs:
-// Prefix with CMS URL
-const contentHtml = (rawHtml || "").replace(
-  /src="\/api\/media\/file\//g,
-  `src="${cmsUrl}/api/media/file/`,
-);
+// In PROD, use local /media/ path. In DEV, use CMS URL.
+const resultHtml = rawHtml || "";
+const contentHtml = import.meta.env.PROD
+  ? resultHtml.replace(/\/api\/media\/file\//g, "/media/")
+  : resultHtml.replace(
+      /src="\/api\/media\/file\//g,
+      `src="${cmsUrl}/api/media/file/`,
+    );
 
 const coverUrl = getCMSUrl(post.coverImage?.url);
 const authors = post.authorsLink.map((l: any) => l.author).filter(Boolean);

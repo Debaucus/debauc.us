@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "sync-assets": "node ./scripts/sync-media.js",
+    "build": "npm run sync-assets && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
