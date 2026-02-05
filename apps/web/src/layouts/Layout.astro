@@ -15,28 +15,34 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
   <body class="flex flex-col min-h-screen border-x border-zinc-900">
     <div
-      class="fixed top-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
+      class="fixed top-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none"
     >
     </div>
     <div
-      class="fixed top-0 left-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
+      class="fixed top-0 left-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none"
     >
     </div>
     <div
-      class="fixed top-0 right-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
+      class="fixed top-0 right-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none"
     >
     </div>
     <div
-      class="fixed bottom-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
+      class="fixed bottom-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none"
     >
     </div>
 
     <header
-      class="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-40 animate-reveal delay-100"
+      class="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-40"
     >
       <nav
         class="container mx-auto max-w-7xl flex items-stretch border-x border-zinc-800"
@@ -58,14 +64,14 @@ import "../styles/global.css";
     </header>
 
     <main
-      class="flex-grow container mx-auto max-w-7xl border-x border-zinc-800 bg-zinc-950 animate-reveal delay-200"
+      class="flex-grow container mx-auto max-w-7xl border-x border-zinc-800 bg-zinc-950"
     >
       <slot />
     </main>
 
     <footer class="border-t border-zinc-800 bg-zinc-950 mt-auto">
       <div
-        class="container mx-auto max-w-7xl px-6 py-4 border-x border-zinc-800 flex justify-between items-center text-xs uppercase tracking-widest text-zinc-600"
+        class="container mx-auto max-w-7xl px-6 py-4 border-x border-zinc-800 flex justify-between items-center text-xs uppercase tracking-widest text-zinc-500"
       >
         <div>
           © {new Date().getFullYear()} Debauc.us
