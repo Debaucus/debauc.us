@@ -39,15 +39,16 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
         <h1
           class="text-6xl md:text-9xl font-bold uppercase tracking-tighter text-zinc-100 font-mono leading-[0.85] mb-8 animate-reveal delay-300"
         >
-          Full<br />
-          <span class="text-zinc-600">Stack</span><br />
-          Dev.
+          Make it<br />
+          <span class="text-zinc-600">Work</span><br />
+          Make it <br /><span class="text-zinc-600">Better</span>
         </h1>
         <p
           class="text-zinc-500 font-mono text-sm max-w-xl leading-relaxed border-l border-emerald-500/50 pl-4 py-1 animate-reveal delay-500"
         >
-          Building and documenting my journey in engineering & design. <br />
-          15 projects and counting.
+          Documenting whatever crosses the mind, to the project I'm working on
+          currently. To random tid bits and useful infomation to reference back
+          to.
         </p>
       </div>
       <div class="hidden md:flex flex-col">
@@ -63,7 +64,27 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
             >
           </div>
         </div>
-        <div class="flex-1 p-4 flex items-center justify-center bg-zinc-900/10">
+        <div class="flex-1 bg-zinc-900/10 grid grid-cols-2">
+          <div
+            class="flex flex-col items-center justify-center p-4 border-r border-zinc-800 animate-reveal delay-300"
+          >
+            <span class="block text-4xl font-bold text-zinc-100"
+              >{allPosts.length}</span
+            >
+            <span class="text-[10px] uppercase text-zinc-500 tracking-widest"
+              >Posts</span
+            >
+          </div>
+          <div
+            class="flex flex-col items-center justify-center p-4 animate-reveal delay-300"
+          >
+            <span class="block text-4xl font-bold text-zinc-100"
+              >{allPosts.length}</span
+            >
+            <span class="text-[10px] uppercase text-zinc-500 tracking-widest"
+              >Posts</span
+            >
+          </div>
         </div>
       </div>
     </div>
