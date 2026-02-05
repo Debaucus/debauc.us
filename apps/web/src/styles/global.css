@@ -1,2 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@theme {
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-sans: 'IBM Plex Mono', monospace;
+    /* Using mono for everything for the technical look */
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+        @apply bg-zinc-950 text-zinc-300 font-mono tracking-tight;
+    }
+
+    /* Custom Scrollbar for technical feel */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-zinc-950;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-zinc-700 rounded-none;
+    }
+
+    ::-webkit-scrollbar-corner {
+        @apply bg-zinc-950;
+    }
+}
+
+@layer utilities {
+    .border-grid {
+        @apply border border-zinc-800;
+    }
+}

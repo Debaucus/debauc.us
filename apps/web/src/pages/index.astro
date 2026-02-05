@@ -27,73 +27,114 @@ import { getCMSUrl } from "../lib/cms";
 const getImageUrl = (media: any) => getCMSUrl(media?.url);
 ---
 
-<Layout title="Debauc.us Blog">
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8">Latest Posts</h1>
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+<Layout title="Debauc.us | Blog">
+  <main class="border-b border-zinc-800">
+    <!-- Hero Block -->
+    <div class="grid grid-cols-1 md:grid-cols-4 border-b border-zinc-800">
+      <div class="p-8 md:col-span-3 border-r border-zinc-800">
+        <h1
+          class="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-zinc-100 mb-6 font-mono leading-none"
+        >
+          Full_Stack<br /><span class="text-zinc-600">Developer</span>
+        </h1>
+        <p
+          class="text-zinc-400 font-mono text-sm max-w-xl leading-relaxed border-l-2 border-emerald-500 pl-4 py-1"
+        >
+          Building and documenting my journey in engineering & design. <br />
+          15 projects and counting.
+        </p>
+      </div>
+      <div class="hidden md:flex flex-col">
+        <div
+          class="flex-1 p-4 border-b border-zinc-800 flex items-center justify-center bg-zinc-900/30"
+        >
+          <div class="text-center">
+            <span class="block text-4xl font-bold text-zinc-100"
+              >{allPosts.length}</span
+            >
+            <span class="text-[10px] uppercase text-zinc-500 tracking-widest"
+              >Posts</span
+            >
+          </div>
+        </div>
+        <div class="flex-1 p-4 flex items-center justify-center bg-zinc-900/10">
+          <!-- Placeholder for potential future small infographic or empty space -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div
+      class="flex border-b border-zinc-800 bg-zinc-900/50 text-xs font-mono font-medium text-zinc-500 sticky top-[61px] z-30"
+    >
+      <div class="px-4 py-2 border-r border-zinc-800 w-16 text-center">#</div>
+      <div class="px-4 py-2 border-r border-zinc-800 flex-1">Project Name</div>
+      <div class="hidden md:block px-4 py-2 border-r border-zinc-800 w-48">
+        Date
+      </div>
+      <div class="hidden lg:block px-4 py-2 border-r border-zinc-800 w-64">
+        Tags
+      </div>
+      <div class="px-4 py-2 w-24 text-center">Link</div>
+    </div>
+
+    <!-- List View -->
+    <div class="divide-y divide-zinc-800">
       {
         allPosts
           .filter((post: any) => post.slug)
-          .map((post: any) => {
-            const authors = post.authorsLink
-              .map((link: any) => link.author)
-              .filter(Boolean);
+          .map((post: any, index: number) => {
             const categories = post.categoriesLink
               .map((link: any) => link.category)
               .filter(Boolean);
             const coverUrl = getImageUrl(post.coverImage);
 
             return (
-              <article class="border rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col overflow-hidden bg-white dark:bg-gray-800">
-                {coverUrl && (
-                  <img
-                    src={coverUrl}
-                    alt={post.coverImage?.alt || post.title}
-                    class="w-full h-48 object-cover"
-                  />
-                )}
-                <div class="p-6 flex flex-col flex-grow">
-                  <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-                    <a href={`/${post.slug}`} class="hover:underline">
-                      {post.title}
-                    </a>
-                  </h2>
+              <article class="group hover:bg-zinc-900/40 transition-colors">
+                <a
+                  href={`/${post.slug}`}
+                  class="flex flex-col md:flex-row items-stretch min-h-[100px]"
+                >
+                  {/* ID Column */}
+                  <div class="p-4 md:w-16 border-b md:border-b-0 md:border-r border-zinc-800 font-mono text-zinc-600 text-xs flex items-center justify-center">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
 
-                  <div class="flex flex-wrap gap-2 mb-3 text-sm text-gray-500">
-                    <span>
-                      {post.publishedDate
-                        ? new Date(post.publishedDate).toLocaleDateString()
-                        : "Published"}
-                    </span>
-                    {authors.length > 0 && (
-                      <span>
-                        by {authors.map((a: any) => a.name).join(", ")}
-                      </span>
+                  {/* Main Content */}
+                  <div class="flex-1 p-4 md:p-6 md:border-r border-zinc-800 flex flex-col justify-center relative overflow-hidden">
+                    <h2 class="text-xl md:text-2xl font-bold text-zinc-200 group-hover:text-emerald-400 transition-colors uppercase tracking-tight mb-2">
+                      {post.title}
+                    </h2>
+                    {post.excerpt && (
+                      <p class="text-zinc-500 text-sm line-clamp-1 font-mono">
+                        {post.excerpt}
+                      </p>
                     )}
                   </div>
 
-                  {post.excerpt && (
-                    <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  )}
-
-                  <div class="mt-auto pt-4 flex justify-between items-center">
-                    <div class="flex gap-2">
-                      {categories.map((cat: any) => (
-                        <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-gray-700 dark:text-gray-300">
-                          {cat.title}
-                        </span>
-                      ))}
-                    </div>
-                    <a
-                      href={`/${post.slug}`}
-                      class="text-blue-500 hover:underline font-semibold"
-                    >
-                      Read more &rarr;
-                    </a>
+                  {/* Date */}
+                  <div class="hidden md:flex w-48 border-r border-zinc-800 items-center px-4 font-mono text-xs text-zinc-500">
+                    {post.publishedDate
+                      ? new Date(post.publishedDate).toISOString().split("T")[0]
+                      : "Draft"}
                   </div>
-                </div>
+
+                  {/* Tags */}
+                  <div class="hidden lg:flex w-64 border-r border-zinc-800 items-center px-4 gap-2 flex-wrap content-center">
+                    {categories.map((cat: any) => (
+                      <span class="text-[10px] uppercase border border-zinc-700 px-1 py-0.5 text-zinc-400 rounded-sm">
+                        {cat.title}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Action */}
+                  <div class="w-full md:w-24 flex items-center justify-center p-4 bg-zinc-950 group-hover:bg-zinc-900 transition-colors">
+                    <span class="text-xs text-emerald-500 group-hover:underline">
+                      View
+                    </span>
+                  </div>
+                </a>
               </article>
             );
           })

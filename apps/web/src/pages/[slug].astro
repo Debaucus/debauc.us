@@ -66,95 +66,105 @@ const categories = post.categoriesLink
 ---
 
 <Layout title={post.title}>
-  <article class="max-w-4xl mx-auto px-4 py-12">
-    <a
-      href="/"
-      class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 transition-colors"
-    >
-      &larr; Back to Blog
-    </a>
-
-    <header class="mb-10 text-center">
-      <div class="mb-6">
-        {
-          categories.map((cat: any) => (
-            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full uppercase tracking-wide font-semibold mr-2">
-              {cat.title}
-            </span>
-          ))
-        }
-      </div>
-
-      <h1
-        class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight"
-      >
-        {post.title}
-      </h1>
-
-      <div
-        class="flex items-center justify-center text-gray-600 dark:text-gray-400 space-x-4"
-      >
-        <div class="flex items-center">
-          {
-            authors.map((author: any) => (
-              <div class="flex items-center mr-4">
-                {/* Placeholder for author image if available */}
-                <span class="font-medium">{author.name}</span>
-              </div>
-            ))
-          }
+  <article class="min-h-screen">
+    <!-- Header Block -->
+    <header class="border-b border-zinc-800 bg-zinc-900/10">
+      <div class="grid grid-cols-1 md:grid-cols-4">
+        <div
+          class="md:col-span-3 p-8 border-b md:border-b-0 border-zinc-800 md:border-r"
+        >
+          <div class="flex items-center gap-3 mb-6">
+            {
+              categories.map((cat: any) => (
+                <span class="text-[10px] uppercase border border-emerald-500/50 text-emerald-500 px-2 py-1 rounded-sm tracking-widest bg-emerald-950/20">
+                  {cat.title}
+                </span>
+              ))
+            }
+          </div>
+          <h1
+            class="text-3xl md:text-5xl font-bold uppercase tracking-tight text-zinc-100 mb-6 leading-tight font-mono"
+          >
+            {post.title}
+          </h1>
+          <div
+            class="flex items-center gap-6 text-xs font-mono text-zinc-500 uppercase tracking-widest"
+          >
+            <div class="flex items-center gap-2">
+              Author: {authors.map((a: any) => a.name).join(" & ")}
+            </div>
+            <span>//</span>
+            <div>
+              Date: {
+                post.publishedDate
+                  ? new Date(post.publishedDate).toISOString().split("T")[0]
+                  : "Draft"
+              }
+            </div>
+          </div>
         </div>
-        <span>&bull;</span>
-        <time datetime={post.publishedDate}>
-          {
-            post.publishedDate
-              ? new Date(post.publishedDate).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })
-              : "Draft"
-          }
-        </time>
+
+        <!-- Empty or Minimal Sidebar -->
+        <div class="hidden md:flex flex-col bg-zinc-900/10">
+          <!-- Could put a small logo or just leave empty for layout balance -->
+        </div>
       </div>
     </header>
 
     {
       coverUrl && (
-        <div class="mb-12 rounded-xl overflow-hidden shadow-2xl aspect-video relative">
-          <img
-            src={coverUrl}
-            alt={post.coverImage?.alt || post.title}
-            class="object-cover w-full h-full"
-          />
+        <div class="border-b border-zinc-800 bg-zinc-950 p-4 flex justify-center">
+          <div class="max-w-4xl w-full border border-zinc-800 p-1">
+            <img
+              src={coverUrl}
+              alt={post.coverImage?.alt || post.title}
+              class="w-full h-auto object-cover max-h-[500px] grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+            />
+          </div>
         </div>
       )
     }
 
-    <div class="prose lg:prose-xl dark:prose-invert mx-auto">
-      {
-        post.excerpt && (
-          <div class="lead text-xl text-gray-600 dark:text-gray-300 font-serif italic mb-8 border-l-4 border-blue-500 pl-4">
-            {post.excerpt}
-          </div>
-        )
-      }
+    <!-- Content -->
+    <div class="grid grid-cols-1 md:grid-cols-12">
+      <div class="hidden md:block col-span-2 border-r border-zinc-800 p-4">
+        <!-- Clean sidebar -->
+      </div>
 
-      <div set:html={contentHtml} />
+      <div class="col-span-1 md:col-span-8 p-6 md:p-12">
+        <div
+          class="prose prose-invert prose-zinc max-w-none font-mono prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tight prose-p:text-zinc-400 prose-a:text-emerald-500 prose-code:text-emerald-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800"
+        >
+          {
+            post.excerpt && (
+              <div class="text-lg text-emerald-400/80 mb-12 border-l-2 border-emerald-500 pl-6 py-2 italic font-mono">
+                {post.excerpt}
+              </div>
+            )
+          }
+          <div set:html={contentHtml} />
+        </div>
+      </div>
+
+      <div
+        class="hidden md:block col-span-2 border-l border-zinc-800 bg-zinc-900/10"
+      >
+      </div>
     </div>
 
-    <hr class="my-12 border-gray-200 dark:border-gray-700" />
-
-    <div
-      class="flex justify-between items-center bg-gray-50 dark:bg-gray-800 p-6 rounded-lg"
-    >
-      <div>
-        <h3 class="font-bold text-gray-900 dark:text-white">Written by</h3>
-        <p class="text-gray-600 dark:text-gray-400">
-          {authors.map((a: any) => a.name).join(" & ")}
-        </p>
-      </div>
-      {/* Share buttons could go here */}
+    <!-- Footer Action -->
+    <div class="border-t border-zinc-800 p-8 flex justify-center bg-zinc-950">
+      <a href="/" class="group flex flex-col items-center gap-2">
+        <div
+          class="w-12 h-12 border border-zinc-700 flex items-center justify-center text-zinc-500 group-hover:text-emerald-500 group-hover:border-emerald-500 transition-all"
+        >
+          &larr;
+        </div>
+        <span
+          class="text-[10px] uppercase tracking-widest text-zinc-600 group-hover:text-emerald-500"
+          >Back to Projects</span
+        >
+      </a>
     </div>
   </article>
 </Layout>
