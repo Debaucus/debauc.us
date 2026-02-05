@@ -30,15 +30,21 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
 <Layout title="Debauc.us | Blog">
   <main class="border-b border-zinc-800">
     <!-- Hero Block -->
-    <div class="grid grid-cols-1 md:grid-cols-4 border-b border-zinc-800">
-      <div class="p-8 md:col-span-3 border-r border-zinc-800">
+    <div
+      class="grid grid-cols-1 md:grid-cols-4 border-b border-zinc-800 min-h-[60vh]"
+    >
+      <div
+        class="p-8 md:col-span-3 border-r border-zinc-800 flex flex-col justify-end"
+      >
         <h1
-          class="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-zinc-100 mb-6 font-mono leading-none"
+          class="text-6xl md:text-9xl font-bold uppercase tracking-tighter text-zinc-100 font-mono leading-[0.85] mb-8 animate-reveal delay-300"
         >
-          Full_Stack<br /><span class="text-zinc-600">Developer</span>
+          Full<br />
+          <span class="text-zinc-600">Stack</span><br />
+          Dev.
         </h1>
         <p
-          class="text-zinc-400 font-mono text-sm max-w-xl leading-relaxed border-l-2 border-emerald-500 pl-4 py-1"
+          class="text-zinc-500 font-mono text-sm max-w-xl leading-relaxed border-l border-emerald-500/50 pl-4 py-1 animate-reveal delay-500"
         >
           Building and documenting my journey in engineering & design. <br />
           15 projects and counting.
@@ -46,9 +52,9 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
       </div>
       <div class="hidden md:flex flex-col">
         <div
-          class="flex-1 p-4 border-b border-zinc-800 flex items-center justify-center bg-zinc-900/30"
+          class="flex-1 p-4 border-b border-zinc-800 flex items-center justify-center bg-zinc-900/10"
         >
-          <div class="text-center">
+          <div class="text-center animate-reveal delay-300">
             <span class="block text-4xl font-bold text-zinc-100"
               >{allPosts.length}</span
             >
@@ -58,14 +64,13 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
           </div>
         </div>
         <div class="flex-1 p-4 flex items-center justify-center bg-zinc-900/10">
-          <!-- Placeholder for potential future small infographic or empty space -->
         </div>
       </div>
     </div>
 
     <!-- Toolbar -->
     <div
-      class="flex border-b border-zinc-800 bg-zinc-900/50 text-xs font-mono font-medium text-zinc-500 sticky top-[61px] z-30"
+      class="flex border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md text-xs font-mono font-medium text-zinc-500 sticky top-[61px] z-30 animate-reveal delay-300"
     >
       <div class="px-4 py-2 border-r border-zinc-800 w-16 text-center">#</div>
       <div class="px-4 py-2 border-r border-zinc-800 flex-1">Project Name</div>
@@ -79,7 +84,7 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
     </div>
 
     <!-- List View -->
-    <div class="divide-y divide-zinc-800">
+    <div class="divide-y divide-zinc-800 animate-reveal delay-500">
       {
         allPosts
           .filter((post: any) => post.slug)
@@ -90,30 +95,34 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
             const coverUrl = getImageUrl(post.coverImage);
 
             return (
-              <article class="group hover:bg-zinc-900/40 transition-colors">
+              <article class="group relative transition-colors duration-300">
                 <a
                   href={`/${post.slug}`}
-                  class="flex flex-col md:flex-row items-stretch min-h-[100px]"
+                  class="flex flex-col md:flex-row items-stretch min-h-[100px] z-10 relative"
                 >
+                  {/* Active Line Indicator */}
+                  <div class="absolute inset-0 border border-transparent group-hover:border-zinc-700 pointer-events-none transition-all duration-300 z-20 mix-blend-screen" />
+                  <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-transparent group-hover:bg-emerald-500 transition-colors duration-200" />
+
                   {/* ID Column */}
-                  <div class="p-4 md:w-16 border-b md:border-b-0 md:border-r border-zinc-800 font-mono text-zinc-600 text-xs flex items-center justify-center">
+                  <div class="p-4 md:w-16 border-b md:border-b-0 md:border-r border-zinc-800 font-mono text-zinc-600 text-xs flex items-center justify-center group-hover:text-zinc-300 transition-colors">
                     {String(index + 1).padStart(2, "0")}
                   </div>
 
                   {/* Main Content */}
                   <div class="flex-1 p-4 md:p-6 md:border-r border-zinc-800 flex flex-col justify-center relative overflow-hidden">
-                    <h2 class="text-xl md:text-2xl font-bold text-zinc-200 group-hover:text-emerald-400 transition-colors uppercase tracking-tight mb-2">
+                    <h2 class="text-xl md:text-3xl font-bold text-zinc-200 group-hover:text-white transition-colors uppercase tracking-tighter mb-2">
                       {post.title}
                     </h2>
                     {post.excerpt && (
-                      <p class="text-zinc-500 text-sm line-clamp-1 font-mono">
+                      <p class="text-zinc-600 text-sm line-clamp-1 font-mono group-hover:text-zinc-400 transition-colors">
                         {post.excerpt}
                       </p>
                     )}
                   </div>
 
                   {/* Date */}
-                  <div class="hidden md:flex w-48 border-r border-zinc-800 items-center px-4 font-mono text-xs text-zinc-500">
+                  <div class="hidden md:flex w-48 border-r border-zinc-800 items-center px-4 font-mono text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors">
                     {post.publishedDate
                       ? new Date(post.publishedDate).toISOString().split("T")[0]
                       : "Draft"}
@@ -122,15 +131,15 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
                   {/* Tags */}
                   <div class="hidden lg:flex w-64 border-r border-zinc-800 items-center px-4 gap-2 flex-wrap content-center">
                     {categories.map((cat: any) => (
-                      <span class="text-[10px] uppercase border border-zinc-700 px-1 py-0.5 text-zinc-400 rounded-sm">
+                      <span class="text-[10px] uppercase border border-zinc-800 px-1 py-0.5 text-zinc-500 rounded-sm group-hover:border-zinc-600 group-hover:text-zinc-300 transition-colors">
                         {cat.title}
                       </span>
                     ))}
                   </div>
 
                   {/* Action */}
-                  <div class="w-full md:w-24 flex items-center justify-center p-4 bg-zinc-950 group-hover:bg-zinc-900 transition-colors">
-                    <span class="text-xs text-emerald-500 group-hover:underline">
+                  <div class="w-full md:w-24 flex items-center justify-center p-4 bg-zinc-950 group-hover:bg-zinc-900/50 transition-colors">
+                    <span class="text-xs text-emerald-600 opacity-0 group-hover:opacity-100 transition-all font-bold tracking-widest uppercase transform translate-x-2 group-hover:translate-x-0">
                       View
                     </span>
                   </div>

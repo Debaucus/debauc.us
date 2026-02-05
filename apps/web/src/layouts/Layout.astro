@@ -19,24 +19,24 @@ import "../styles/global.css";
   </head>
   <body class="flex flex-col min-h-screen border-x border-zinc-900">
     <div
-      class="fixed top-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none"
+      class="fixed top-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
     >
     </div>
     <div
-      class="fixed top-0 left-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none"
+      class="fixed top-0 left-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
     >
     </div>
     <div
-      class="fixed top-0 right-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none"
+      class="fixed top-0 right-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
     >
     </div>
     <div
-      class="fixed bottom-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none"
+      class="fixed bottom-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none animate-reveal"
     >
     </div>
 
     <header
-      class="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-40"
+      class="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-40 animate-reveal delay-100"
     >
       <nav
         class="container mx-auto max-w-7xl flex items-stretch border-x border-zinc-800"
@@ -58,7 +58,7 @@ import "../styles/global.css";
     </header>
 
     <main
-      class="flex-grow container mx-auto max-w-7xl border-x border-zinc-800 bg-zinc-950"
+      class="flex-grow container mx-auto max-w-7xl border-x border-zinc-800 bg-zinc-950 animate-reveal delay-200"
     >
       <slot />
     </main>

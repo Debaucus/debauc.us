@@ -71,7 +71,9 @@ const categories = post.categoriesLink
 <Layout title={post.title}>
   <article class="min-h-screen">
     <!-- Header Block -->
-    <header class="border-b border-zinc-800 bg-zinc-900/10">
+    <header
+      class="border-b border-zinc-800 bg-zinc-900/10 animate-reveal delay-200"
+    >
       <div class="grid grid-cols-1 md:grid-cols-4">
         <div
           class="md:col-span-3 p-8 border-b md:border-b-0 border-zinc-800 md:border-r"
@@ -116,7 +118,7 @@ const categories = post.categoriesLink
 
     {
       coverUrl && (
-        <div class="border-b border-zinc-800 bg-zinc-950 p-4 flex justify-center">
+        <div class="border-b border-zinc-800 bg-zinc-950 p-4 flex justify-center animate-reveal delay-300">
           <div class="max-w-4xl w-full border border-zinc-800 p-1">
             <img
               src={coverUrl}
@@ -129,7 +131,7 @@ const categories = post.categoriesLink
     }
 
     <!-- Content -->
-    <div class="grid grid-cols-1 md:grid-cols-12">
+    <div class="grid grid-cols-1 md:grid-cols-12 animate-reveal delay-500">
       <div class="hidden md:block col-span-2 border-r border-zinc-800 p-4">
         <!-- Clean sidebar -->
       </div>
