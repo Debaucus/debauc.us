@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 | Not Found">
+  <main class="min-h-[80vh] flex flex-col items-center justify-center p-8 border-b border-zinc-800 bg-zinc-950">
+    <div class="max-w-xl w-full text-center">
+      <div class="mb-8 relative inline-block">
+        <h1 class="text-[12rem] md:text-[18rem] font-bold leading-none select-none text-transparent bg-clip-text bg-gradient-to-b from-zinc-800 to-zinc-950 font-mono tracking-tighter">
+          404
+        </h1>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span class="text-emerald-500 text-6xl md:text-8xl animate-pulse">◆</span>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <h2 class="text-2xl md:text-4xl font-bold uppercase tracking-tight text-zinc-100 font-mono">
+          System Error: <span class="text-zinc-500">Route Not Found</span>
+        </h2>
+        
+        <p class="text-zinc-500 font-mono text-sm leading-relaxed border-l-2 border-emerald-500/50 pl-6 py-2 mx-auto max-w-md text-left">
+          The requested document has been relocated, archived, or never existed in the current project scope. 
+          Please return to the main entry point to continue navigation.
+        </p>
+
+        <div class="pt-12">
+          <a 
+            href="/" 
+            class="group inline-flex items-center gap-4 px-8 py-4 border border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:text-emerald-500 hover:border-emerald-500 transition-all duration-300 font-mono uppercase text-xs tracking-[0.3em]"
+          >
+            <span>&larr; Return to Home</span>
+            <span class="w-1 h-1 bg-emerald-500 rounded-full group-hover:scale-150 transition-transform"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background Grid Effect -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-20">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+    </div>
+  </main>
+</Layout>
