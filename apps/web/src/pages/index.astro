@@ -169,9 +169,9 @@ const schema = {
                   </div>
 
                   {/* Tags */}
-                  <div class="hidden lg:flex w-64 border-r border-zinc-800 items-center px-4 gap-2 flex-wrap content-center">
+                  <div class="flex lg:w-64 md:border-r border-zinc-800 items-center px-4 pb-4 md:pb-0 gap-2 flex-wrap content-center">
                     {categories.map((cat: any) => (
-                      <span class="text-[10px] uppercase border border-zinc-800 px-1 py-0.5 text-zinc-500 rounded-sm group-hover:border-zinc-500 group-hover:text-zinc-300 transition-colors">
+                      <span class="text-[10px] uppercase border border-emerald-500/50 px-1 py-0.5 text-emerald-500 rounded-sm md:border-zinc-800 md:text-zinc-500 group-hover:border-emerald-500 group-hover:text-emerald-400 transition-colors font-mono">
                         {cat.title}
                       </span>
                     ))}

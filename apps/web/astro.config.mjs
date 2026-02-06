@@ -4,8 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://debauc.us',
-  trailingSlash: 'always',
+  site: 'https://debauc.us/',
   vite: {
     plugins: [tailwindcss()]
   },
