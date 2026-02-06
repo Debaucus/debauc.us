@@ -22,6 +22,14 @@ const allPosts = await db.query.posts.findMany({
   },
 });
 
+const activeProjects = allPosts.filter((post: any) =>
+  post.categoriesLink.some((link: any) => link.category?.title === "Active"),
+);
+
+const closedSoldProjects = allPosts.filter((post: any) =>
+  post.categoriesLink.some((link: any) => link.category?.title === "Inactive"),
+);
+
 import { getCMSUrl } from "../lib/cms";
 
 const getImageUrl = (media: any) => getCMSUrl(media?.url);
@@ -46,8 +54,8 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
         <p
           class="text-zinc-500 font-mono text-sm max-w-xl leading-relaxed border-l border-emerald-500/50 pl-4 py-1"
         >
-          Documenting whatever crosses the mind, to the project I'm working on
-          currently. To random tid bits and useful infomation to reference back
+          Documenting whatever crosses my mind, to the project I'm working on
+          currently, to random tid bits and useful infomation to reference back
           to.
         </p>
       </div>
@@ -57,7 +65,7 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
         >
           <div class="text-center">
             <span class="block text-4xl font-bold text-zinc-100"
-              >{allPosts.length}</span
+              >{activeProjects.length}</span
             >
             <span class="text-[10px] uppercase text-zinc-500 tracking-widest"
               >Active Projects</span
@@ -77,7 +85,7 @@ const getImageUrl = (media: any) => getCMSUrl(media?.url);
           </div>
           <div class="flex flex-col items-center justify-center p-4">
             <span class="block text-4xl font-bold text-zinc-100"
-              >{allPosts.length}</span
+              >{closedSoldProjects.length}</span
             >
             <span
               class="text-[10px] uppercase text-zinc-500 tracking-widest text-center"
