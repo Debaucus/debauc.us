@@ -1,27 +1,20 @@
 ---
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
 }
 
-const { title } = Astro.props;
+const { title, description, image, type } = Astro.props;
 import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Full Stack Developer Log" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <title>{title}</title>
+    <BaseHead {title} {description} {image} {type} />
   </head>
   <body class="flex flex-col min-h-screen border-x border-zinc-900">
     <div

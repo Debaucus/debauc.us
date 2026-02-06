@@ -33,9 +33,22 @@ const closedSoldProjects = allPosts.filter((post: any) =>
 import { getCMSUrl } from "../lib/cms";
 
 const getImageUrl = (media: any) => getCMSUrl(media?.url);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Debauc.us",
+  url: Astro.site,
+  description:
+    "Full Stack Developer Log - Documenting whatever crosses my mind, from projects to random tidbits.",
+};
 ---
 
-<Layout title="Debauc.us | Blog">
+<Layout
+  title="Debauc.us | Blog"
+  description="Full Stack Developer Log - Documenting whatever crosses my mind, from projects to random tidbits."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   <main class="border-b border-zinc-800">
     <!-- Hero Block -->
     <div

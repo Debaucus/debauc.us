@@ -66,9 +66,31 @@ const authors = post.authorsLink.map((l: any) => l.author).filter(Boolean);
 const categories = post.categoriesLink
   .map((l: any) => l.category)
   .filter(Boolean);
+
+const description = post.excerpt || `Read ${post.title} on Debauc.us`;
+const authorNames = authors.map((a: any) => a.name).join(" & ");
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": description,
+  "image": coverUrl ? [coverUrl] : [],
+  "datePublished": post.publishedDate ?? undefined,
+  "author": authors.map(a => ({
+    "@type": "Person",
+    "name": a.name ?? "Anonymous"
+  }))
+};
 ---
 
-<Layout title={post.title}>
+<Layout 
+  title={post.title ?? ""}
+  description={description}
+  image={coverUrl ?? undefined}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   <article class="min-h-screen">
     <!-- Header Block -->
     <header class="border-b border-zinc-800 bg-zinc-900/10">
