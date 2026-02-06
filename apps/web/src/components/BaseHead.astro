@@ -4,24 +4,26 @@ interface Props {
   description?: string;
   image?: string;
   canonicalURL?: URL;
-  type?: 'website' | 'article';
+  type?: "website" | "article";
 }
 
 const {
   title,
-  description = "Minimal Portfolio & Blog by Sito",
-  image = "/favicon.svg", // Fallback image
+  description = "A blog built by Debaucus, documenting my Projects, whatever crosses my mind and random tidbits.",
+  image = "/favicon.ico", // Fallback image
   canonicalURL = new URL(Astro.url.pathname, Astro.site),
-  type = 'website'
+  type = "website",
 } = Astro.props;
 
-const siteName = "Debauc.us";
+const siteName = "Debaucus";
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#09090b" />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
@@ -39,6 +41,7 @@ const siteName = "Debauc.us";
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
 <meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
