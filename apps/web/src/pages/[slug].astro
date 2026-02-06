@@ -106,11 +106,34 @@ const categories = post.categoriesLink
             </div>
           </div>
         </div>
+       
+        {post.projectLink && (
+           <div class="md:col-span-1 p-8 border-b border-zinc-800 flex items-center justify-center bg-zinc-900/5">
+             <a 
+               href={post.projectLink}
+               target="_blank"
+               rel="noopener noreferrer"
+               class="group flex flex-col items-center gap-3 text-zinc-500 hover:text-emerald-500 transition-colors"
+             >
+               <div class="w-12 h-12 rounded-full border border-zinc-700 bg-zinc-900 flex items-center justify-center group-hover:border-emerald-500 group-hover:bg-emerald-500/10 transition-all duration-300">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="translate-y-[1px]">
+                   <path d="M15 3h6v6" />
+                   <path d="M10 14 21 3" />
+                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                 </svg>
+               </div>
+               <span class="text-[10px] uppercase tracking-widest font-mono">View Project</span>
+             </a>
+           </div>
+         )}
+        </div>
 
         <!-- Empty or Minimal Sidebar -->
+        {!post.projectLink && (
         <div class="hidden md:flex flex-col bg-zinc-900/10">
           <!-- Could put a small logo or just leave empty for layout balance -->
         </div>
+        )}
       </div>
     </header>
 

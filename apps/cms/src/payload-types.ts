@@ -153,6 +153,7 @@ export interface User {
 export interface Post {
   id: number;
   title: string;
+  projectLink?: string | null;
   excerpt?: string | null;
   publishedDate?: string | null;
   status: 'draft' | 'published';
@@ -335,6 +336,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  projectLink?: T;
   excerpt?: T;
   publishedDate?: T;
   status?: T;

@@ -8,6 +8,7 @@ export const posts = sqliteTable("posts", {
   title: text("title").notNull(),
   content: text("content", { mode: "json" }),
   content_html: text("content_html"),
+  projectLink: text("project_link"),
   excerpt: text("excerpt"),
   status: text("status"),
   publishedDate: text("published_date"),

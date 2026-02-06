@@ -13,6 +13,11 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: 'projectLink',
+      type: 'text',
+      required: false,
+    },
+    {
       name: 'excerpt',
       type: 'textarea',
     },
