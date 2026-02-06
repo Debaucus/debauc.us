@@ -19,25 +19,109 @@ function convertMarkdownToLexical(markdown: string, mediaMap: Map<string, string
   }
 
   const lines = markdown.split('\n')
+  let currentList: any = null
   let currentParagraph: any = null
+
+  // Helper to parse inline text/links
+  const parseInline = (text: string) => {
+    const children: any[] = []
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g
+    let lastIndex = 0
+    let match
+
+    while ((match = linkRegex.exec(text)) !== null) {
+      // Add text before link
+      if (match.index > lastIndex) {
+        children.push({
+          type: 'text',
+          text: text.slice(lastIndex, match.index),
+          format: 0,
+          detail: 0,
+          mode: 'normal',
+          style: '',
+        })
+      }
+
+      // Add link
+      children.push({
+        type: 'link',
+        format: '',
+        indent: 0,
+        version: 1,
+        fields: {
+          url: match[2],
+          newTab: true,
+          linkType: 'custom',
+        },
+        children: [
+          {
+            type: 'text',
+            text: match[1],
+            format: 0,
+            detail: 0,
+            mode: 'normal',
+            style: '',
+          },
+        ],
+      })
+
+      lastIndex = linkRegex.lastIndex
+    }
+
+    // Add remaining text
+    if (lastIndex < text.length) {
+      children.push({
+        type: 'text',
+        text: text.slice(lastIndex),
+        format: 0,
+        detail: 0,
+        mode: 'normal',
+        style: '',
+      })
+    }
+
+    // If no children (empty string?), add empty text
+    if (children.length === 0) {
+      children.push({
+        type: 'text',
+        text: text,
+        format: 0,
+        detail: 0,
+        mode: 'normal',
+        style: '',
+      })
+    }
+
+    return children
+  }
+
+  const flushParagraph = () => {
+    if (currentParagraph) {
+      root.children.push(currentParagraph)
+      currentParagraph = null
+    }
+  }
+
+  const flushList = () => {
+    if (currentList) {
+      root.children.push(currentList)
+      currentList = null
+    }
+  }
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
 
     if (!line) {
-      if (currentParagraph) {
-        root.children.push(currentParagraph)
-        currentParagraph = null
-      }
+      flushParagraph()
+      flushList()
       continue
     }
 
     // Headings
     if (line.startsWith('#')) {
-      if (currentParagraph) {
-        root.children.push(currentParagraph)
-        currentParagraph = null
-      }
+      flushParagraph()
+      flushList()
       const level = line.match(/^#+/)?.[0].length || 1
       const text = line.replace(/^#+\s*/, '')
       root.children.push({
@@ -46,16 +130,7 @@ function convertMarkdownToLexical(markdown: string, mediaMap: Map<string, string
         format: '',
         indent: 0,
         version: 1,
-        children: [
-          {
-            type: 'text',
-            text: text,
-            format: 0,
-            detail: 0,
-            mode: 'normal',
-            style: '',
-          },
-        ],
+        children: parseInline(text),
       })
       continue
     }
@@ -63,13 +138,10 @@ function convertMarkdownToLexical(markdown: string, mediaMap: Map<string, string
     // Images: ![alt](src)
     const imageMatch = line.match(/^!\[(.*?)\]\((.*?)\)$/)
     if (imageMatch) {
-      if (currentParagraph) {
-        root.children.push(currentParagraph)
-        currentParagraph = null
-      }
+      flushParagraph()
+      flushList()
       const alt = imageMatch[1]
       const src = imageMatch[2]
-      // Try to find filename from src
       const filename = path.basename(src)
       const mediaId = mediaMap.get(filename) || mediaMap.get(decodeURIComponent(filename))
 
@@ -81,31 +153,64 @@ function convertMarkdownToLexical(markdown: string, mediaMap: Map<string, string
           version: 1,
           value: mediaId,
           relationTo: 'media',
-          fields: {
-             // Basic fields if needed, but upload usually just needs value/relationTo
-          }
+          fields: {},
         })
       } else {
-         // Fallback to text if image not found in CMS
-         root.children.push({
-             type: 'paragraph',
-             format: '',
-             indent: 0,
-             version: 1,
-             children: [{
-                 type: 'text',
-                 text: `[MISSING IMAGE: ${alt} - ${src}]`,
-                 format: 0,
-                 detail: 0,
-                 mode: 'normal',
-                 style: ''
-             }]
-         })
+        // Fallback to paragraph with missing text
+        root.children.push({
+          type: 'paragraph',
+          format: '',
+          indent: 0,
+          version: 1,
+          children: [
+            {
+              type: 'text',
+              text: `[MISSING IMAGE: ${alt} - ${src}]`,
+              format: 0,
+              detail: 0,
+              mode: 'normal',
+              style: '',
+            },
+          ],
+        })
       }
       continue
     }
 
+    // Lists (- item or 1. item)
+    const listMatch = line.match(/^(\-|\*|\d+\.)\s+(.*)/)
+    if (listMatch) {
+      flushParagraph()
+      const isOrdered = /^\d+\./.test(listMatch[1])
+      const listType = isOrdered ? 'number' : 'bullet'
+      const content = listMatch[2]
+
+      if (!currentList || currentList.listType !== listType) {
+        flushList()
+        currentList = {
+          type: 'list',
+          listType: listType,
+          start: isOrdered ? 1 : undefined,
+          tag: isOrdered ? 'ol' : 'ul',
+          format: '',
+          indent: 0,
+          version: 1,
+          children: [],
+        }
+      }
+
+      currentList.children.push({
+        type: 'listitem',
+        format: '',
+        indent: 0,
+        version: 1,
+        children: parseInline(content),
+      })
+      continue
+    }
+
     // Paragraphs
+    flushList() // List ended if we hit a non-list line
     if (!currentParagraph) {
       currentParagraph = {
         type: 'paragraph',
@@ -115,31 +220,24 @@ function convertMarkdownToLexical(markdown: string, mediaMap: Map<string, string
         children: [],
       }
     } else {
-       // Add space if continuing paragraph
-       currentParagraph.children.push({
-          type: 'text',
-          text: ' ',
-          format: 0,
-          detail: 0,
-          mode: 'normal',
-          style: ''
-       })
+      // Add space if continuing paragraph
+      currentParagraph.children.push({
+        type: 'text',
+        text: ' ',
+        format: 0,
+        detail: 0,
+        mode: 'normal',
+        style: '',
+      })
     }
 
-    // Basic text for now (ignoring inline bold/italic parsing for simplicity)
-    currentParagraph.children.push({
-      type: 'text',
-      text: line,
-      format: 0,
-      detail: 0,
-      mode: 'normal',
-      style: '',
-    })
+    // Parse inline content (links etc)
+    const inlineNodes = parseInline(line)
+    currentParagraph.children.push(...inlineNodes)
   }
 
-  if (currentParagraph) {
-    root.children.push(currentParagraph)
-  }
+  flushParagraph()
+  flushList()
 
   return root
 }
