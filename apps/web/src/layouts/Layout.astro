@@ -1,0 +1,86 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+}
+
+const { title, description, image, type } = Astro.props;
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead {title} {description} {image} {type} />
+  </head>
+  <body class="flex flex-col min-h-screen border-x border-zinc-900">
+    <div
+      class="fixed top-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none"
+    >
+    </div>
+    <div
+      class="fixed top-0 left-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none"
+    >
+    </div>
+    <div
+      class="fixed top-0 right-0 h-full w-[1px] bg-zinc-800 z-50 pointer-events-none"
+    >
+    </div>
+    <div
+      class="fixed bottom-0 left-0 w-full h-[1px] bg-zinc-800 z-50 pointer-events-none"
+    >
+    </div>
+
+    <header
+      class="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-40"
+    >
+      <nav
+        class="container mx-auto max-w-7xl flex items-stretch border-x border-zinc-800"
+      >
+        <a
+          href="/"
+          class="px-6 py-4 border-r border-zinc-800 text-zinc-100 font-bold hover:bg-zinc-900 transition-colors uppercase tracking-widest flex items-center gap-2"
+        >
+          <span class="text-emerald-500">◆</span> DEBAUCUS
+        </a>
+        <div class="flex-1"></div>
+        <a
+          href="/"
+          class="px-6 py-4 border-l border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-colors text-xs font-semibold uppercase tracking-wider flex items-center"
+        >
+          Blog
+        </a>
+      </nav>
+    </header>
+
+    <main
+      class="flex-grow container mx-auto max-w-7xl border-x border-zinc-800 bg-zinc-950"
+    >
+      <slot />
+    </main>
+
+    <footer class="border-t border-zinc-800 bg-zinc-950 mt-auto">
+      <div
+        class="container mx-auto max-w-7xl px-6 py-4 border-x border-zinc-800 flex justify-between items-center text-xs uppercase tracking-widest text-zinc-500"
+      >
+        <div>
+          © {new Date().getFullYear()} Debauc.us
+        </div>
+        <div class="flex gap-4">
+          <a
+            href="https://github.com/Debaucus"
+            class="hover:text-zinc-300 cursor-pointer transition-colors"
+            >My Github</a
+          >
+          <a
+            href="mailto:contact@debauc.us"
+            class="hover:text-zinc-300 cursor-pointer transition-colors">Mail</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "@debauc-us/web",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "sync-assets": "node ./scripts/sync-media.js",
+    "build": "npm run sync-assets && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "@libsql/client": "^0.17.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "drizzle-orm": "^0.45.1",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "drizzle-kit": "^0.31.8"
+  }
+}

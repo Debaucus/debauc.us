@@ -1,0 +1,16 @@
+{
+  "name": "Debauc.us",
+  "short_name": "Debaucus",
+  "description": "Full Stack Developer Log - Documenting Projects and Personal Learnings",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/android-chrome-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#09090b",
+  "background_color": "#09090b",
+  "display": "standalone"
+}

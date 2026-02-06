@@ -1,0 +1,219 @@
+---
+import { db } from "../lib/db";
+import { posts } from "../lib/schema";
+import { eq } from "drizzle-orm";
+import Layout from "../layouts/Layout.astro";
+import { serializeLexical } from "../lib/serializer";
+
+export async function getStaticPaths() {
+  const allPosts = await db
+    .select({ slug: posts.slug })
+    .from(posts)
+    .where(eq(posts.status, "published"));
+
+  return allPosts.map((p: any) => ({
+    params: { slug: p.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+// Fetch full post data with relations
+const post = await db.query.posts.findFirst({
+  where: eq(posts.slug, slug as string),
+  with: {
+    coverImage: true,
+    authorsLink: {
+      with: { author: true },
+    },
+    categoriesLink: {
+      with: { category: true },
+    },
+  },
+});
+
+if (!post) {
+  return Astro.redirect("/404");
+}
+
+// Prefix image URLs in HTML content to point to CMS
+import { getCMSUrl, CMS_URL } from "../lib/cms";
+const cmsUrl = CMS_URL;
+// Fallback to client-side serialization if content_html is missing
+let rawHtml = post.content_html;
+
+if (!rawHtml && post.content) {
+  // Fetch all media to resolve IDs
+  // Optimization: In a real app, strict filtering by IDs found in content would be better.
+  // For now, fetching all is acceptable for a small blog.
+  const allMedia = await db.query.media.findMany();
+  const mediaMap = new Map(allMedia.map((m: any) => [m.id, m]));
+
+  rawHtml = await serializeLexical(post.content, mediaMap);
+}
+
+// Fix image URLs:
+// In PROD, use local /media/ path. In DEV, use CMS URL.
+const resultHtml = rawHtml || "";
+const contentHtml = import.meta.env.PROD
+  ? resultHtml.replace(/\/api\/media\/file\//g, "/media/")
+  : resultHtml.replace(
+      /src="\/api\/media\/file\//g,
+      `src="${cmsUrl}/api/media/file/`,
+    );
+
+const coverUrl = getCMSUrl(post.coverImage?.url);
+const authors = post.authorsLink.map((l: any) => l.author).filter(Boolean);
+const categories = post.categoriesLink
+  .map((l: any) => l.category)
+  .filter(Boolean);
+
+const description = post.excerpt || `Read ${post.title} on Debauc.us`;
+const authorNames = authors.map((a: any) => a.name).join(" & ");
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": description,
+  "image": coverUrl ? [coverUrl] : [],
+  "datePublished": post.publishedDate ?? undefined,
+  "author": authors.map(a => ({
+    "@type": "Person",
+    "name": a.name ?? "Anonymous"
+  }))
+};
+---
+
+<Layout 
+  title={post.title ?? ""}
+  description={description}
+  image={coverUrl ?? undefined}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <article class="min-h-screen">
+    <!-- Header Block -->
+    <header class="border-b border-zinc-800 bg-zinc-900/10">
+      <div class="grid grid-cols-1 md:grid-cols-4">
+        <div
+          class="md:col-span-3 p-8 border-b md:border-b-0 border-zinc-800 md:border-r"
+        >
+
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            {
+              categories.map((cat: any) => (
+                <span class="text-[10px] uppercase border border-emerald-500/50 text-emerald-500 px-2 py-1 rounded-sm tracking-widest bg-emerald-950/20">
+                  {cat.title}
+                </span>
+              ))
+            }
+          </div>
+          <h1
+            class="text-3xl md:text-5xl font-bold uppercase tracking-tight text-zinc-100 mb-6 leading-tight font-mono"
+          >
+            {post.title}
+          </h1>
+          <div
+            class="flex items-center gap-6 text-xs font-mono text-zinc-500 uppercase tracking-widest"
+          >
+            <div class="flex items-center gap-2">
+              Author: {authors.map((a: any) => a.name).join(" & ")}
+            </div>
+            <span>//</span>
+            <div>
+              Date: {
+                post.publishedDate
+                  ? new Date(post.publishedDate).toISOString().split("T")[0]
+                  : "Draft"
+              }
+            </div>
+          </div>
+        </div>
+       
+        {post.projectLink && (
+           <div class="md:col-span-1 p-8 border-b border-zinc-800 flex items-center justify-center bg-zinc-900/5">
+             <a 
+               href={post.projectLink}
+               target="_blank"
+               rel="noopener noreferrer"
+               class="group flex flex-col items-center gap-3 text-zinc-500 hover:text-emerald-500 transition-colors"
+             >
+               <div class="w-12 h-12 rounded-full border border-zinc-700 bg-zinc-900 flex items-center justify-center group-hover:border-emerald-500 group-hover:bg-emerald-500/10 transition-all duration-300">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="translate-y-[1px]">
+                   <path d="M15 3h6v6" />
+                   <path d="M10 14 21 3" />
+                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                 </svg>
+               </div>
+               <span class="text-[10px] uppercase tracking-widest font-mono">View Project</span>
+             </a>
+           </div>
+         )}
+        </div>
+
+        <!-- Empty or Minimal Sidebar -->
+        {!post.projectLink && (
+        <div class="hidden md:flex flex-col bg-zinc-900/10">
+          <!-- Could put a small logo or just leave empty for layout balance -->
+        </div>
+        )}
+      </div>
+    </header>
+
+    {
+      coverUrl && (
+        <div class="border-b border-zinc-800 bg-zinc-950 p-4 flex justify-center">
+          <div class="max-w-4xl w-full border border-zinc-800 p-1">
+            <img
+              src={coverUrl}
+              alt={post.coverImage?.alt || post.title}
+              class="w-full h-auto object-cover max-h-[500px]"
+            />
+          </div>
+        </div>
+      )
+    }
+
+    <!-- Content -->
+    <div class="grid grid-cols-1 md:grid-cols-12">
+      <div class="hidden md:block col-span-2 border-r border-zinc-800 p-4">
+        <!-- Clean sidebar -->
+      </div>
+
+      <div class="col-span-1 md:col-span-8 p-6 md:p-12">
+        <div
+          class="prose prose-invert prose-zinc max-w-none font-mono prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tight prose-p:text-zinc-400 prose-a:text-emerald-500 prose-code:text-emerald-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800"
+        >
+          {
+            post.excerpt && (
+              <div class="text-lg text-emerald-400/80 mb-12 border-l-2 border-emerald-500 pl-6 py-2 italic font-mono">
+                {post.excerpt}
+              </div>
+            )
+          }
+          <div set:html={contentHtml} />
+        </div>
+      </div>
+
+      <div
+        class="hidden md:block col-span-2 border-l border-zinc-800 bg-zinc-900/10"
+      >
+      </div>
+    </div>
+
+    <!-- Footer Action -->
+    <div class="border-t border-zinc-800 p-8 flex justify-center bg-zinc-950">
+      <a href="/" class="group flex flex-col items-center gap-2">
+        <div
+          class="w-12 h-12 border border-zinc-700 flex items-center justify-center text-zinc-500 group-hover:text-emerald-500 group-hover:border-emerald-500 transition-all"
+        >
+          &larr;
+        </div>
+        <span
+          class="text-[10px] uppercase tracking-widest text-zinc-500 group-hover:text-emerald-500"
+          >Back to Projects</span
+        >
+      </a>
+    </div>
+  </article>
+</Layout>
