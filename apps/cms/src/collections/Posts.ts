@@ -1,5 +1,11 @@
 import type { CollectionConfig } from 'payload'
-import { HTMLConverterFeature, lexicalEditor, lexicalHTML } from '@payloadcms/richtext-lexical'
+import {
+  BlocksFeature,
+  CodeBlock,
+  HTMLConverterFeature,
+  lexicalEditor,
+  lexicalHTML,
+} from '@payloadcms/richtext-lexical'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -71,7 +77,39 @@ export const Posts: CollectionConfig = {
       name: 'content',
       type: 'richText',
       editor: lexicalEditor({
-        features: ({ defaultFeatures }) => [...defaultFeatures, HTMLConverterFeature({})],
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          HTMLConverterFeature(),
+          BlocksFeature({
+            blocks: [
+              CodeBlock({
+                fieldOverrides: {
+                  fields: [
+                    {
+                      name: 'language',
+                      type: 'select',
+                      // admin: { hidden: true }, // Unhide for debugging
+                      options: [
+                        { label: 'TypeScript', value: 'typescript' },
+                        { label: 'JavaScript', value: 'javascript' },
+                        { label: 'HTML', value: 'html' },
+                        { label: 'CSS', value: 'css' },
+                        { label: 'Python', value: 'python' },
+                        { label: 'Rust', value: 'rust' },
+                        { label: 'XML', value: 'xml' },
+                        // Add more as needed or rely on defaults if not overriding options
+                      ],
+                    },
+                    {
+                      name: 'code',
+                      type: 'code',
+                    },
+                  ],
+                },
+              }),
+            ],
+          }),
+        ],
       }),
     },
     lexicalHTML('content', { name: 'content_html' }),
