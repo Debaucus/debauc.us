@@ -59,7 +59,11 @@ function serializeNode(node: any, mediaMap?: Map<number, any>): string {
     case "link":
       return `<a href="${node.fields?.url || "#"}">${children}</a>`;
     case "block":
-      if (node.fields?.blockType === "code") {
+      // Payload's CodeBlock uses the slug "Code" by default
+      if (
+        node.fields?.blockType === "code" ||
+        node.fields?.blockType === "Code"
+      ) {
         return `<pre><code>${escapeHTML(node.fields.code || "")}</code></pre>`;
       }
       return "";
