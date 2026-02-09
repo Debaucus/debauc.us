@@ -1,5 +1,14 @@
 import { getCMSUrl } from "./cms";
 
+function escapeHTML(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function serializeLexical(
   content: any,
   mediaMap?: Map<number, any>,
@@ -21,10 +30,12 @@ function serializeNode(node: any, mediaMap?: Map<number, any>): string {
 
   if (node.type === "text") {
     let text = node.text || "";
+    text = escapeHTML(text);
     // Basic escaping could be added here
     if (node.format & 1) text = `<strong>${text}</strong>`;
     if (node.format & 2) text = `<em>${text}</em>`;
     if (node.format & 8) text = `<u>${text}</u>`;
+    if (node.format & 16) text = `<code>${text}</code>`;
     return text;
   }
 
@@ -47,6 +58,10 @@ function serializeNode(node: any, mediaMap?: Map<number, any>): string {
       return `<blockquote>${children}</blockquote>`;
     case "link":
       return `<a href="${node.fields?.url || "#"}">${children}</a>`;
+    case "linebreak":
+      return "<br />";
+    case "code":
+      return `<pre><code>${children}</code></pre>`;
     case "upload":
       if (node.value) {
         let url: string | null = null;
