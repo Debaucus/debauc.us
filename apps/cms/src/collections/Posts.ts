@@ -79,17 +79,7 @@ export const Posts: CollectionConfig = {
       editor: lexicalEditor({
         features: ({ defaultFeatures }) => [
           ...defaultFeatures,
-          HTMLConverterFeature({
-            converters: ({ defaultConverters }) => [
-              ...defaultConverters,
-              {
-                converter: async ({ node }) => {
-                  return `<pre><code class="language-${node.fields.language}">${node.fields.code}</code></pre>`
-                },
-                nodeTypes: ['block'],
-              },
-            ],
-          }),
+          HTMLConverterFeature(),
           BlocksFeature({
             blocks: [CodeBlock()],
           }),
