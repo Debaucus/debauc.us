@@ -81,7 +81,33 @@ export const Posts: CollectionConfig = {
           ...defaultFeatures,
           HTMLConverterFeature(),
           BlocksFeature({
-            blocks: [CodeBlock()],
+            blocks: [
+              CodeBlock({
+                fieldOverrides: {
+                  fields: [
+                    {
+                      name: 'language',
+                      type: 'select',
+                      // admin: { hidden: true }, // Unhide for debugging
+                      options: [
+                        { label: 'TypeScript', value: 'typescript' },
+                        { label: 'JavaScript', value: 'javascript' },
+                        { label: 'HTML', value: 'html' },
+                        { label: 'CSS', value: 'css' },
+                        { label: 'Python', value: 'python' },
+                        { label: 'Rust', value: 'rust' },
+                        { label: 'XML', value: 'xml' },
+                        // Add more as needed or rely on defaults if not overriding options
+                      ],
+                    },
+                    {
+                      name: 'code',
+                      type: 'code',
+                    },
+                  ],
+                },
+              }),
+            ],
           }),
         ],
       }),
