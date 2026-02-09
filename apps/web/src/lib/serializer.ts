@@ -58,6 +58,11 @@ function serializeNode(node: any, mediaMap?: Map<number, any>): string {
       return `<blockquote>${children}</blockquote>`;
     case "link":
       return `<a href="${node.fields?.url || "#"}">${children}</a>`;
+    case "block":
+      if (node.fields?.blockType === "code") {
+        return `<pre><code>${escapeHTML(node.fields.code || "")}</code></pre>`;
+      }
+      return "";
     case "linebreak":
       return "<br />";
     case "code":

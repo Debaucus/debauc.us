@@ -1,0 +1,54 @@
+
+> @debauc-us/cms@1.0.0 build
+> cross-env NODE_OPTIONS="--no-deprecation --max-old-space-size=8000" next build
+
+   Ôû▓ Next.js 15.4.11
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ÔÜá Compiled with warnings in 6.0s
+
+../../node_modules/payload/dist/utilities/dynamicImport.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+../../node_modules/payload/dist/utilities/dynamicImport.js
+../../node_modules/payload/dist/index.js
+./src/app/my-route/route.ts
+
+   Linting and checking validity of types ...
+
+./src/app/my-route/route.ts
+4:27  Warning: 'request' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+5:9  Warning: 'payload' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/scripts/check-media.ts
+16:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./src/scripts/migrate.ts
+13:15  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+22:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+23:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+27:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+255:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+267:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+289:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+Failed to compile.
+
+./src/app/(payload)/admin/[[...segments]]/not-found.tsx:19:3
+Type error: Type 'Promise<import("C:/Users/Sito/Documents/GitHub/debauc.us/node_modules/next/dist/lib/metadata/types/metadata-interface").Metadata>' is not assignable to type 'Promise<import("C:/Users/Sito/Documents/GitHub/debauc.us/apps/cms/node_modules/next/dist/lib/metadata/types/metadata-interface").Metadata>'.
+  Type 'import("C:/Users/Sito/Documents/GitHub/debauc.us/node_modules/next/dist/lib/metadata/types/metadata-interface").Metadata' is not assignable to type 'import("C:/Users/Sito/Documents/GitHub/debauc.us/apps/cms/node_modules/next/dist/lib/metadata/types/metadata-interface").Metadata'.
+    Types of property 'metadataBase' are incompatible.
+      Type 'string | URL | null | undefined' is not assignable to type 'URL | null | undefined'.
+        Type 'string' is not assignable to type 'URL'.
+
+  17 |
+  18 | export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
+> 19 |   generatePageMetadata({ config, params, searchParams })
+     |   ^
+  20 |
+  21 | const NotFound = ({ params, searchParams }: Args) =>
+  22 |   NotFoundPage({ config, params, searchParams, importMap })
+Next.js build worker exited with code: 1 and signal: null
