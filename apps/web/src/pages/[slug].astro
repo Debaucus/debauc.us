@@ -4,6 +4,8 @@ import { posts } from "../lib/schema";
 import { eq } from "drizzle-orm";
 import Layout from "../layouts/Layout.astro";
 import { serializeLexical } from "../lib/serializer";
+import { Image } from "astro:assets";
+import { getLocalImage } from "../lib/images";
 
 export async function getStaticPaths() {
   const allPosts = await db
@@ -62,6 +64,7 @@ const contentHtml = import.meta.env.PROD
     );
 
 const coverUrl = getCMSUrl(post.coverImage?.url);
+const imageLoader = getLocalImage(coverUrl);
 const authors = post.authorsLink.map((l: any) => l.author).filter(Boolean);
 const categories = post.categoriesLink
   .map((l: any) => l.category)
@@ -161,16 +164,30 @@ const schema = {
     </header>
 
     {
-      coverUrl && (
+      imageLoader ? (
         <div class="border-b border-zinc-800 bg-zinc-950 p-4 flex justify-center">
           <div class="max-w-4xl w-full border border-zinc-800 p-1">
-            <img
-              src={coverUrl}
+            <Image
+              src={imageLoader()}
               alt={post.coverImage?.alt || post.title}
               class="w-full h-auto object-cover max-h-[500px]"
+              quality="mid"
+              format="webp"
             />
           </div>
         </div>
+      ) : (
+        coverUrl && (
+          <div class="border-b border-zinc-800 bg-zinc-950 p-4 flex justify-center">
+            <div class="max-w-4xl w-full border border-zinc-800 p-1">
+              <img
+                src={coverUrl}
+                alt={post.coverImage?.alt || post.title}
+                class="w-full h-auto object-cover max-h-[500px]"
+              />
+            </div>
+          </div>
+        )
       )
     }
 

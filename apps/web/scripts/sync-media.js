@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 // Define paths
 const WEB_ROOT = path.resolve(__dirname, '..');
 const CMS_MEDIA_PATH = path.resolve(WEB_ROOT, '../../apps/cms/media');
-const PUBLIC_MEDIA_PATH = path.resolve(WEB_ROOT, 'public/media');
+const PUBLIC_MEDIA_PATH = path.resolve(WEB_ROOT, 'src/assets/media');
 
 console.log('🔄 Syncing media assets...');
 console.log(`FROM: ${CMS_MEDIA_PATH}`);

@@ -11,6 +11,7 @@
     "build": "npm run build --workspaces"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.0"
+    "@libsql/client": "^0.17.0",
+    "sharp": "^0.34.5"
   }
 }
