@@ -54,14 +54,9 @@ if (!rawHtml && post.content) {
 }
 
 // Fix image URLs:
-// In PROD, use local /media/ path. In DEV, use CMS URL.
+// Since images are synced to public/media, use local /media/ path for both PROD and DEV.
 const resultHtml = rawHtml || "";
-const contentHtml = import.meta.env.PROD
-  ? resultHtml.replace(/\/api\/media\/file\//g, "/media/")
-  : resultHtml.replace(
-      /src="\/api\/media\/file\//g,
-      `src="${cmsUrl}/api/media/file/`,
-    );
+const contentHtml = resultHtml.replace(/\/api\/media\/file\//g, "/media/");
 
 const coverUrl = getCMSUrl(post.coverImage?.url);
 const imageLoader = getLocalImage(coverUrl);

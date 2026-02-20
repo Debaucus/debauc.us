@@ -9,10 +9,12 @@ const __dirname = path.dirname(__filename);
 const WEB_ROOT = path.resolve(__dirname, '..');
 const CMS_MEDIA_PATH = path.resolve(WEB_ROOT, '../../apps/cms/media');
 const PUBLIC_MEDIA_PATH = path.resolve(WEB_ROOT, 'src/assets/media');
+const PUBLIC_HTML_MEDIA_PATH = path.resolve(WEB_ROOT, 'public/media');
 
 console.log('🔄 Syncing media assets...');
 console.log(`FROM: ${CMS_MEDIA_PATH}`);
-console.log(`TO:   ${PUBLIC_MEDIA_PATH}`);
+console.log(`TO (Assets): ${PUBLIC_MEDIA_PATH}`);
+console.log(`TO (Public): ${PUBLIC_HTML_MEDIA_PATH}`);
 
 // Ensure source exists
 if (!fs.existsSync(CMS_MEDIA_PATH)) {
@@ -21,10 +23,14 @@ if (!fs.existsSync(CMS_MEDIA_PATH)) {
     process.exit(0);
 }
 
-// Ensure destination exists
+// Ensure destination directories exist
 if (!fs.existsSync(PUBLIC_MEDIA_PATH)) {
     console.log(`Creating directory: ${PUBLIC_MEDIA_PATH}`);
     fs.mkdirSync(PUBLIC_MEDIA_PATH, { recursive: true });
+}
+if (!fs.existsSync(PUBLIC_HTML_MEDIA_PATH)) {
+    console.log(`Creating directory: ${PUBLIC_HTML_MEDIA_PATH}`);
+    fs.mkdirSync(PUBLIC_HTML_MEDIA_PATH, { recursive: true });
 }
 
 // Copy files
@@ -40,6 +46,11 @@ try {
         if (fs.lstatSync(srcFile).isDirectory()) continue;
 
         fs.copyFileSync(srcFile, destFile);
+        
+        // Also copy to public/media for raw HTML content (e.g., inside blog posts)
+        const publicDestFile = path.join(PUBLIC_HTML_MEDIA_PATH, file);
+        fs.copyFileSync(srcFile, publicDestFile);
+        
         count++;
     }
 
