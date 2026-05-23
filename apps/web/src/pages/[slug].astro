@@ -68,12 +68,14 @@ const categories = post.categoriesLink
 const description = post.excerpt || `Read ${post.title} on Debauc.us`;
 const authorNames = authors.map((a: any) => a.name).join(" & ");
 
+const schemaCoverUrl = coverUrl ? new URL(coverUrl, Astro.site).toString() : undefined;
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": post.title,
   "description": description,
-  "image": coverUrl ? [coverUrl] : [],
+  "image": schemaCoverUrl ? [schemaCoverUrl] : [],
   "datePublished": post.publishedDate ?? undefined,
   "author": authors.map(a => ({
     "@type": "Person",
@@ -133,7 +135,8 @@ const schema = {
              <a 
                href={post.projectLink}
                target="_blank"
-               rel="noopener noreferrer"
+               rel="noopener noreferrer nofollow"
+               title={`View ${post.title} project`}
                class="group flex flex-col items-center gap-3 text-zinc-500 hover:text-emerald-500 transition-colors"
              >
                <div class="w-12 h-12 rounded-full border border-zinc-700 bg-zinc-900 flex items-center justify-center group-hover:border-emerald-500 group-hover:bg-emerald-500/10 transition-all duration-300">
@@ -143,7 +146,7 @@ const schema = {
                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                  </svg>
                </div>
-               <span class="text-[10px] uppercase tracking-widest font-mono">View Project</span>
+               <span class="text-[10px] uppercase tracking-widest font-mono">View {post.title}</span>
              </a>
            </div>
          )}
